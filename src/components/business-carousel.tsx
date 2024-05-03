@@ -1,8 +1,10 @@
-import Seara from "../../public/seara.png";
-import BancoOriginal from "../../public/banco-original.png";
-import Picpay from "../../public/picpay.png";
-import Swift from "../../public/swift.png";
-import Friboi from "../../public/friboi.png";
+"use client";
+
+import Seara from "../../public/seara.svg";
+import BancoOriginal from "../../public/banco-original.svg";
+import Picpay from "../../public/picpay.svg";
+import Swift from "../../public/swift.svg";
+import Friboi from "../../public/friboi.svg";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
