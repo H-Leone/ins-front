@@ -2,3 +2,9 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+.hero-bg {
+    background-image: url("../../public/hero-background.svg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}

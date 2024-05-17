@@ -11,6 +11,12 @@ const config: Config = {
       backgroundImage: {
         "insigthfy-gradient": "linear-gradient(180deg, rgba(0,115,252,1) 0%, rgba(85,106,254,1) 82%, rgba(130,102,255,1) 100%)",
       },
+      textColor: {
+        "ins-blue": "#0073FC"
+      },
+      backgroundColor: {
+        "ins-blue": "#0073FC"
+      }
     },
   },
   plugins: [],

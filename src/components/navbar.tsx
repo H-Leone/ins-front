@@ -6,6 +6,7 @@ import { useState } from "react";
 import NavItemCard from "./nav-item-card";
 import { Search } from "lucide-react";
 import Logo from "../../public/insightfy-logo.png";
+import Link from "next/link";
 
 function Navbar() {
     const router = useRouter();
@@ -61,9 +62,11 @@ function Navbar() {
     };
 
     return (
-        <nav className="shadow-lg w-full h-[110px] flex justify-between items-center fixed top-0 left-0 px-8">
+        <nav className="bg-white shadow-lg w-full h-[110px] flex justify-between items-center fixed top-0 left-0 px-8 z-10">
             <section className="flex items-center gap-8">
-            <img width={110} height={60} src={Logo.src} alt="" />
+            <Link href="/">
+                <img width={110} height={60} src={Logo.src} alt="" />
+            </Link>
             <nav className="flex gap-4">{navItems.map(renderNavItemCard)}</nav>
             </section>
 
