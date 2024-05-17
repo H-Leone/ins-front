@@ -12,7 +12,7 @@ interface Props {
 function NavItemCard({ gradient, name, subItems, index, itemOpen, handleClickNavItem, handleClickSubItem }: NavItem & Props) {
     return (
         <span
-            className={`relative px-3 py-2 rounded ${gradient && "bg-insigthfy-gradient"}`}
+            className={`relative px-3 py-2 rounded ${gradient && "bg-insightfy-gradient"}`}
         >
             <section
                 onClick={handleClickNavItem(subItems ? index : { name, subItems })}
