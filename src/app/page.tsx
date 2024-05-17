@@ -3,7 +3,7 @@ import BusinessCarousel from "@/components/business-carousel";
 
 function Home() {
   return (
-    <div className="py-[110px] flex flex-col gap-12">
+    <div className="flex flex-col gap-12">
       <div className="hero-bg h-[650px] flex items-center px-[85px]">
         
         <div className="w-[500px] flex flex-col gap-6">
