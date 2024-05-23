@@ -19,6 +19,7 @@ const config: Config = {
         "placeholder-text": "#3C3C4360",
         "insightfy-green": "#008000",
         "insightfy-red": "#FF5A5A",
+        "insightfy-gray": "#B3B3B3",
       },
       textColor: {
         "ins-blue": "#0073FC"
