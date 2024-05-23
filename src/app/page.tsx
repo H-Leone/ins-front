@@ -13,7 +13,7 @@ function Home() {
           <p className="text-white text-gray-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed bibendum purus eget nunc luctus tincidunt. Proin dignissim massa sed aliquam iaculis.</p>
 
           <div className="flex gap-4">
-            <button className="bg-insigthfy-gradient px-4 py-2 rounded-md text-white">Começar</button>
+            <button className="bg-insightfy-gradient px-4 py-2 rounded-md text-white">Começar</button>
             <button className="bg-gray-100 px-4 py-2 rounded-md font-medium">Saber mais</button>
           </div>
 
