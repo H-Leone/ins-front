@@ -20,6 +20,12 @@ const config: Config = {
         "insightfy-green": "#008000",
         "insightfy-red": "#FF5A5A",
       },
+      textColor: {
+        "ins-blue": "#0073FC"
+      },
+      backgroundColor: {
+        "ins-blue": "#0073FC"
+      }
     },
   },
   plugins: [],
