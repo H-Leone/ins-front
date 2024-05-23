@@ -1,13 +1,17 @@
 interface IInsightfyButtonProps {
+  width?: number;
   text: string;
+  type: "button" | "submit" | "reset";
   variant: "contained" | "outlined";
   icon?: React.ReactNode;
-  click: () => void;
+  click?: () => void;
   disabled: boolean;
 }
 
 function InsightfyButton({
+  width,
   text,
+  type,
   variant,
   icon,
   click,
@@ -15,13 +19,16 @@ function InsightfyButton({
 }: IInsightfyButtonProps) {
   return (
     <button
+      type={type}
       disabled={disabled}
       onClick={click}
+      style={{ width: width }}
       className={`p-4 rounded-md flex align-center justify-center gap-2 hover:duration-[0.3s] duration-[0.3s] ${
         variant === "contained"
           ? "bg-insightfy-blue hover:bg-insightfy-blue-hover"
           : "border-solid border border-insightfy-blue hover:bg-insightfy-white-hover"
-      }   `}
+      }
+      `}
     >
       <span
         className={`${

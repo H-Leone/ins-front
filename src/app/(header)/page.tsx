@@ -1,4 +1,4 @@
-import Graph from "../../public/Graph.svg";
+import Graph from "../../../public/Graph.svg";
 import BusinessCarousel from "@/components/business-carousel";
 
 function Home() {
