@@ -14,11 +14,13 @@ const config: Config = {
       },
       colors: {
         "insightfy-blue": "#0C77F8",
+        "insightfy-dark-blue": "#170F49",
         "insightfy-blue-hover": "#0C77F895",
         "insightfy-white-hover": "#0C77F835",
         "placeholder-text": "#3C3C4360",
         "insightfy-green": "#008000",
         "insightfy-red": "#FF5A5A",
+        "insightfy-neutral": "#A0A3BD",
       },
     },
   },
