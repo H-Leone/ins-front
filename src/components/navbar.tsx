@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import NavItemCard from "./nav-item-card";
 import { Search } from "lucide-react";
-import Logo from "../../public/insightfy-logo.png";
+import Logo from "../../public/insightfy-logo.svg";
 import Link from "next/link";
 import { normalizeString } from "@/utils/stringNomalizer";
 
