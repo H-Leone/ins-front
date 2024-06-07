@@ -1,33 +1,37 @@
-import { useState } from "react";
+import Link from "next/link";
 
 export interface IInsightfyTabsProps {
   name: string;
+  path: string;
   content: React.ReactNode;
 }
 
 export interface IInsightfyTabs {
+  research: string;
+  currentTab: string;
   tabs: IInsightfyTabsProps[];
 }
 
-function InsightfyTabs({ tabs }: IInsightfyTabs) {
-  const [activeTab, setActiveTab] = useState<number>(0);
+function InsightfyTabs({ research, currentTab, tabs }: IInsightfyTabs) {
+  const activeTab = tabs.findIndex((tab) => tab.path === currentTab) ?? 0;
 
   return (
     <div className="w-full">
       <div className="flex w-full border-b-2 py-4">
         <ul className="flex cursor-pointer w-full justify-evenly">
           {tabs.map((tab, index) => (
-            <li
-              key={index}
-              className={`px-4 py-2 ${
-                activeTab === index
-                  ? "text-insightfy-dark-blue border-b-2 font-bold border-insightfy-blue"
-                  : "text-insightfy-neutral"
-              } `}
-              onClick={() => setActiveTab(index)}
-            >
-              {tab.name}
-            </li>
+            <Link href={`/formularios/${research}?tab=${tab.path}`}>
+              <li
+                key={index}
+                className={`px-4 py-2 ${
+                  tab.path === currentTab
+                    ? "text-insightfy-dark-blue border-b-2 font-bold border-insightfy-blue"
+                    : "text-insightfy-neutral"
+                } `}
+              >
+                {tab.name}
+              </li>
+            </Link>
           ))}
         </ul>
       </div>

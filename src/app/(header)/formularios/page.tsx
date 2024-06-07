@@ -5,15 +5,10 @@ import ResearchCard, {
   IResearchCardProps,
 } from "@/components/ResearchCard/research-card";
 import TextInput from "@/components/TextInput/text-input";
-import Navbar from "@/components/navbar";
-import { normalizeString } from "@/utils/stringNomalizer";
 import { PlusIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 function FormsPage() {
-  const router = useRouter();
-
   const [researchList, setResearchList] = useState<IResearchCardProps[]>([
     {
       title: "Pesquisa NPS 01",
@@ -44,9 +39,8 @@ function FormsPage() {
   ]);
 
   return (
-    <div>
-      <Navbar />
-      <div className="px-64 flex-col gap-4 flex py-32">
+    <div className="flex justify-center pt-10">
+      <div className="lg:w-[700px] md:w-[500px] w-[400px] flex-col gap-4 flex">
         <div className="flex justify-between items-center">
           <TextInput
             change={() => {}}
@@ -55,15 +49,9 @@ function FormsPage() {
             suffixIcon={"search"}
           />
           <InsightfyButton
-            type="button"
-            click={() =>
-              router.push(
-                `${normalizeString("formulários")}/${normalizeString(
-                  "formulário"
-                )}/0`
-              )
-            }
+            click={() => null}
             disabled={false}
+            type="button"
             text="Nova Pesquisa"
             variant="outlined"
             icon={<PlusIcon className="text-insightfy-blue w-6 h-6"></PlusIcon>}

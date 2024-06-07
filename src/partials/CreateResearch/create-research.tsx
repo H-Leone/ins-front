@@ -1,3 +1,5 @@
+"use client";
+
 import InsightfyButton from "@/components/InsightfyButton/insightfy-button";
 import { MessageSquareTextIcon, SendIcon, UsersIcon } from "lucide-react";
 import { useState } from "react";
