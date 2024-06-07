@@ -11,18 +11,21 @@ import { useState } from "react";
 function FormsPage() {
   const [researchList, setResearchList] = useState<IResearchCardProps[]>([
     {
+      id: 1,
       title: "Pesquisa NPS 01",
       answers: 150,
       startDate: new Date(),
       status: "active",
     },
     {
+      id: 2,
       title: "Pesquisa NPS 02",
       answers: 0,
       startDate: new Date(),
       status: "scheduled",
     },
     {
+      id: 3,
       title: "Pesquisa NPS 03",
       answers: 123,
       startDate: new Date(),
@@ -30,6 +33,7 @@ function FormsPage() {
       endDate: new Date(),
     },
     {
+      id: 4,
       title: "Pesquisa NPS 04",
       answers: 180,
       startDate: new Date(),

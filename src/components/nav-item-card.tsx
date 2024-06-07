@@ -1,35 +1,77 @@
-import { NavItem } from "@/types/nav-item";
+"use client";
+
+import { normalizeString } from "@/utils/stringNomalizer";
+import { INavItem } from "@/types/nav-item";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 interface Props {
     gradient?: boolean;
-    index: number;
-    itemOpen: number | null;
-    handleClickNavItem: (el: NavItem | number) => () => void;
-    handleClickSubItem: (subItem: string) => () => void;
 }
 
-function NavItemCard({ gradient, name, subItems, index, itemOpen, handleClickNavItem, handleClickSubItem }: NavItem & Props) {
+function NavItemCard({ gradient, name, subItems }: INavItem & Props) {
+    const ref = useRef<HTMLSpanElement>(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const url = normalizeString(name).toLowerCase();
+
+    const handleClick: React.MouseEventHandler = (e) => {
+        if (subItems) {
+            e.preventDefault();
+            setIsOpen((prev) => !prev);
+        }
+    };
+ 
+    const handleClickSubItem = () => {
+        setIsOpen(false);
+    }
+
+    useEffect(() => {
+        const windowClick = (e: any) => {
+            if (ref.current && !ref.current.contains(e.target as Node)) {
+                setIsOpen(false);
+            }
+        }
+
+        window.addEventListener("click", windowClick);
+
+        return () => {
+            window.removeEventListener("click", windowClick);
+        }
+    }, []);
+
     return (
         <span
-            className={`relative px-3 py-2 rounded ${gradient && "bg-insightfy-gradient"}`}
+            ref={ref}
+            className={`relative px-3 py-2 rounded ${gradient && "bg-insightfy-gradient text-white"} font-medium`}
         >
-            <section
-                onClick={handleClickNavItem(subItems ? index : { name, subItems })}
-                className="flex justify-around items-center gap-1 cursor-pointer"
-            >
-                <p className={`w-full select-none text-center font-medium ${gradient && "text-white"}`}>{name}</p>
-                {subItems && <ChevronDown size={25} className={`${(subItems && itemOpen === index) && "rotate-180"} duration-200`} />}
-            </section>
-            <div className="rounded-md">
-                {(subItems && itemOpen === index) && (
-                <nav className="w-full text-center absolute top-8 left-0 bg-white border border-gray-300 rounded-md select-none">
-                    {subItems.map((subItem, index) => (
-                    <p key={index} className="cursor-pointer p-2 hover:bg-gray-200" onClick={handleClickSubItem(subItem)}>{subItem}</p>
-                    ))}
+
+            <Link href={`/${url}`}>
+
+                <span onClick={handleClick} className="flex items-center gap-2">
+                    <p>{name}</p>
+
+                    {subItems && (
+                        <ChevronDown size={20} />
+                    )}
+                </span>
+
+            </Link>
+
+            {(subItems && isOpen) && (
+                <nav className="w-full text-center absolute top-10 left-0 bg-white border border-gray-300 rounded-md select-none">
+                    {subItems.map((subItem, index) => {
+                        const subUrl = normalizeString(subItem).toLowerCase();
+
+                        return (
+                            <Link onClick={handleClickSubItem} key={index} href={`/${subUrl}`}>
+                                <p key={index} className="cursor-pointer p-2 hover:bg-gray-200">{subItem}</p>
+                            </Link>
+                        );
+                    })}
                 </nav>
-                )}
-            </div>
+            )}
+
         </span>
     );
 }
