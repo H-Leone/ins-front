@@ -55,6 +55,7 @@ function FormsPage() {
             suffixIcon={"search"}
           />
           <InsightfyButton
+            type="button"
             click={() =>
               router.push(
                 `${normalizeString("formulários")}/${normalizeString(

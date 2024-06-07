@@ -2,6 +2,7 @@
 
 import InsightfyTabs from "@/components/InsightfyTabs/insightfy-tabs";
 import Navbar from "@/components/navbar";
+import CreateResearchPage from "@/partials/CreateResearch/create-research";
 import { useParams } from "next/navigation";
 
 function CreateFormPage() {
@@ -14,7 +15,7 @@ function CreateFormPage() {
         <div className="flex justify-between items-center">
           <InsightfyTabs
             tabs={[
-              { content: <></>, name: "criação de formulário" },
+              { content: <CreateResearchPage/>, name: "criação de formulário" },
               { content: <></>, name: "respostas gerais" },
               { content: <></>, name: "análise de respostas" },
             ]}
