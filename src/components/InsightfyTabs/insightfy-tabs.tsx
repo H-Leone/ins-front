@@ -20,7 +20,7 @@ function InsightfyTabs({ research, currentTab, tabs }: IInsightfyTabs) {
       <div className="flex w-full border-b-2 py-4">
         <ul className="flex cursor-pointer w-full justify-evenly">
           {tabs.map((tab, index) => (
-            <Link href={`/formularios/${research}?tab=${tab.path}`}>
+            <Link key={tab.name} href={`/formularios/${research}?tab=${tab.path}`}>
               <li
                 key={index}
                 className={`px-4 py-2 ${

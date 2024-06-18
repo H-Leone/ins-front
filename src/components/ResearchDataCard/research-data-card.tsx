@@ -61,7 +61,7 @@ function ResearchDataCard({  }: IResearchDataCardProps) {
                 <div className="flex gap-2">
 
                     {["30", "60", "90"].map((el) => (
-                        <span onClick={handleClick(el)} className={`flex justify-center items-center w-11 h-6 text-white text-sm font-bold bg-insightfy-blue rounded-xl ${el !== selectDate && "opacity-40"} cursor-pointer`}>
+                        <span key={el} onClick={handleClick(el)} className={`flex justify-center items-center w-11 h-6 text-white text-sm font-bold bg-insightfy-blue rounded-xl ${el !== selectDate && "opacity-40"} cursor-pointer`}>
                             <p>{el}</p>
                         </span>
                     ))}

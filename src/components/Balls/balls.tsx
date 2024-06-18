@@ -13,7 +13,7 @@ function Balls() {
         <div className="m-auto flex gap-2">
 
             {[0, 1, 2].map((ball) => (
-                <div onClick={handleClick(ball)} className={`w-5 h-5 bg-insightfy-blue rounded-full ${ball !== selectedBall && "opacity-40"} cursor-pointer`}>
+                <div key={ball} onClick={handleClick(ball)} className={`w-5 h-5 bg-insightfy-blue rounded-full ${ball !== selectedBall && "opacity-40"} cursor-pointer`}>
 
                 </div>
             ))}
