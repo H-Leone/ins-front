@@ -1,9 +1,10 @@
 interface IInsightfyButtonProps {
-  width?: number;
+  width?: string;
   text: string;
   type: "button" | "submit" | "reset";
   variant: "contained" | "outlined";
   icon?: React.ReactNode;
+  prefixIcon?: React.ReactNode;
   click?: () => void;
   disabled: boolean;
 }
@@ -14,6 +15,7 @@ function InsightfyButton({
   type,
   variant,
   icon,
+  prefixIcon,
   click,
   disabled,
 }: IInsightfyButtonProps) {
@@ -30,6 +32,7 @@ function InsightfyButton({
       }
       `}
     >
+      {prefixIcon && prefixIcon}
       <span
         className={`${
           variant === "contained" ? "text-white" : "text-insightfy-blue"

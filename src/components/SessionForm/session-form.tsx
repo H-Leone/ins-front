@@ -57,7 +57,7 @@ function SessionForm({ type }: SessionFormProps) {
 
             <InsightfyButton
                 type="submit"
-                width={350}
+                width="350"
                 variant="contained"
                 text={type === "login" ? "Login" : "Próximo"}
                 disabled={false}

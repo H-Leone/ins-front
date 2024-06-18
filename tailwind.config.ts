@@ -14,19 +14,23 @@ const config: Config = {
       },
       colors: {
         "insightfy-blue": "#0C77F8",
+        "insightfy-dark-blue": "#170F49",
         "insightfy-blue-hover": "#0C77F895",
         "insightfy-white-hover": "#0C77F835",
-        "placeholder-text": "#3C3C4360",
         "insightfy-green": "#008000",
         "insightfy-red": "#FF5A5A",
         "insightfy-gray": "#B3B3B3",
+        "placeholder-text": "#3C3C4360",
+        "insightfy-neutral": "#A0A3BD",
+        "insightfy-surface": "#F8FAFC",
+        "insightfy-": "#6F7482",
       },
       textColor: {
-        "ins-blue": "#0073FC"
+        "ins-blue": "#0073FC",
       },
       backgroundColor: {
-        "ins-blue": "#0073FC"
-      }
+        "ins-blue": "#0073FC",
+      },
     },
   },
   plugins: [],

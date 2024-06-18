@@ -1,3 +1,4 @@
+import Header from "@/components/header";
 import Navbar from "@/components/navbar";
 
 interface HeaderLayoutProps {
@@ -7,7 +8,7 @@ interface HeaderLayoutProps {
 function HeaderLayout({ children }: HeaderLayoutProps) {
     return (
         <div className="py-[110px]">
-            <Navbar />
+            <Header />
             {children}
         </div>
     );

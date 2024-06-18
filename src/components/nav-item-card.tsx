@@ -21,6 +21,10 @@ function NavItemCard({ gradient, name, subItems }: INavItem & Props) {
             setIsOpen((prev) => !prev);
         }
     };
+ 
+    const handleClickSubItem = () => {
+        setIsOpen(false);
+    }
 
     useEffect(() => {
         const windowClick = (e: any) => {
@@ -60,7 +64,7 @@ function NavItemCard({ gradient, name, subItems }: INavItem & Props) {
                         const subUrl = normalizeString(subItem).toLowerCase();
 
                         return (
-                            <Link key={index} href={`/${subUrl}`}>
+                            <Link onClick={handleClickSubItem} key={index} href={`/${subUrl}`}>
                                 <p key={index} className="cursor-pointer p-2 hover:bg-gray-200">{subItem}</p>
                             </Link>
                         );
