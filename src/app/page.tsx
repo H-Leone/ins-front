@@ -1,9 +1,11 @@
-import Graph from "../../../public/Graph.svg";
+import Navbar from "@/components/navbar";
+import Graph from "../../public/Graph.svg";
 import BusinessCarousel from "@/components/business-carousel";
 
 function Home() {
   return (
-    <div className="flex flex-col gap-12">
+    <div className="flex flex-col gap-12 py-[110px]">
+      <Navbar />
       <div className="hero-bg h-[650px] flex items-center px-[85px]">
         
         <div className="w-[500px] flex flex-col gap-6">
