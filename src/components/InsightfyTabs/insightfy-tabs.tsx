@@ -17,16 +17,17 @@ function InsightfyTabs({ research, currentTab, tabs }: IInsightfyTabs) {
 
   return (
     <div className="w-full">
-      <div className="flex w-full border-b-2 py-4">
-        <ul className="flex cursor-pointer w-full justify-evenly">
+      <div className="flex w-full py-4">
+
+        <ul className="bg-insightfy-gradient flex items-center cursor-pointer w-full justify-evenly rounded-xl py-3">
           {tabs.map((tab, index) => (
             <Link key={tab.name} href={`/formularios/${research}?tab=${tab.path}`}>
               <li
                 key={index}
-                className={`px-4 py-2 ${
+                className={`px-4 py-2 font-semibold rounded-lg ${
                   tab.path === currentTab
-                    ? "text-insightfy-dark-blue border-b-2 font-bold border-insightfy-blue"
-                    : "text-insightfy-neutral"
+                    ? "text-insightfy-blue border-b-2 border-insightfy-blue bg-white"
+                    : "text-white"
                 } `}
               >
                 {tab.name}
@@ -34,8 +35,11 @@ function InsightfyTabs({ research, currentTab, tabs }: IInsightfyTabs) {
             </Link>
           ))}
         </ul>
+
       </div>
+
       <div className="py-4">{tabs[activeTab].content}</div>
+
     </div>
   );
 }

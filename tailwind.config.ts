@@ -23,7 +23,7 @@ const config: Config = {
         "placeholder-text": "#3C3C4360",
         "insightfy-neutral": "#A0A3BD",
         "insightfy-surface": "#F8FAFC",
-        "insightfy-": "#6F7482",
+        "insightfy-dark-gray": "#6F7482",
       },
       textColor: {
         "ins-blue": "#0073FC",

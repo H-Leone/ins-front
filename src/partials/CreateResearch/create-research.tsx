@@ -1,89 +1,65 @@
-"use client";
-
 import InsightfyButton from "@/components/InsightfyButton/insightfy-button";
+import ResearchRating from "@/components/ResearchRating/research-rating";
 import { MessageSquareTextIcon, SendIcon, UsersIcon } from "lucide-react";
-import { useState } from "react";
 
 function CreateResearchPage() {
-  const [title, setTitle] = useState("Título da pesquisa");
+  const actions = [
+    {
+      icon: <UsersIcon className="text-insightfy-blue w-6 h-6 font-light" />,
+      name: "Adicione um grupo",
+      action: null,
+    },
+    {
+      icon: <SendIcon className="text-insightfy-blue w-6 h-6 font-light" />,
+      name: "Método de disparo",
+      action: null,
+    },
+    {
+      icon: <MessageSquareTextIcon className="text-insightfy-blue w-6 h-6 font-light" />,
+      name: "Descrição mensagem",
+      action: null,
+    },
+  ];
 
   return (
     <div className="flex gap-10">
-      <div className="w-1/3 p4">
-        <div className="w-full px-6 py-8 flex flex-col justify-center items-center gap-8 border rounded-md justify-center shadow-lg">
+      <div className="w-[400px] h-fit flex flex-col gap-8 shadow-lg p-6">
+        {actions.map(action => (
           <InsightfyButton
-            text="adicione um grupo"
+            key={action.name}
+            text={action.name}
             width="100%"
             disabled={false}
             type="button"
             variant="outlined"
-            click={() => null}
-            prefixIcon={
-              <UsersIcon className="text-insightfy-blue w-6 h-6 font-light" />
-            }
+            prefixIcon={action.icon}
           />
-          <InsightfyButton
-            text="método de disparo"
-            width="100%"
-            disabled={false}
-            type="button"
-            variant="outlined"
-            click={() => null}
-            prefixIcon={
-              <SendIcon className="text-insightfy-blue w-6 h-6 font-light" />
-            }
-          />
-          <InsightfyButton
-            text="descrição mensagem"
-            width="100%"
-            disabled={false}
-            type="button"
-            variant="outlined"
-            click={() => null}
-            prefixIcon={
-              <MessageSquareTextIcon className="text-insightfy-blue w-6 h-6 font-light" />
-            }
-          />
-          <button
-            className="text-white py-2 px-8 font-semibold rounded-md flex align-center justify-center gap-2 bg-insightfy-blue hover:bg-insightfy-blue-hover"
-            disabled={false}
-            type="button"
-            onClick={() => null}
-          >
-            Disparar
-          </button>
-        </div>
+        ))}
       </div>
-      <div className="flex flex-col items-center gap-4">
-        <div className="px-6 w-full py-8 flex flex-col justify-center items-center gap-8 border rounded-md justify-center shadow-lg">
-          <input
-            className="w-full border-b-2 text-3xl py-4 focus:outline-none focus:ring-0 focus:caret-insightfy-blue"
+
+      <div className="w-full flex flex-col gap-8 shadow-3xl">
+
+        <section className="w-full flex justify-center flex-col px-8 py-8 shadow-lg rounded-md">
+          <input 
             type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            className="w-full text-3xl border-b-2 px-4 py-3 outline-none"
+            value="Pesquisa NPS"
           />
+        </section>
+
+        <section className="w-full flex flex-col gap-8 px-8 py-8 shadow-lg rounded-md">
+          <p className="text-sm text-center font-medium text-insightfy-dark-gray">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+
+          <ResearchRating />
+
+        </section>
+
+        <div className="text-center w-full py-12 border border-dashed border-red-500">
+
+          <p>+ Nova Pergunta</p>
+
         </div>
-        <div className="px-6 w-full py-8 flex flex-col justify-center items-center gap-8 border rounded-md justify-center shadow-lg">
-          <textarea
-            className="w-full text-ins-fidas py-4 focus:outline-none focus:ring-0 focus:caret-insightfy-blue"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />  
-          <input
-            className="bg-ins-fidas w-full border-b-2 text-placeholder-text py-4 focus:outline-none focus:ring-0 focus:caret-insightfy-blue"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-        <div className="px-6 w-full py-8 flex flex-col justify-center items-center gap-8 border rounded-md justify-center shadow-lg">
-          <input
-            className="w-full border-b-2 text-3xl py-4 focus:outline-none focus:ring-0 focus:caret-insightfy-blue"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
+
       </div>
     </div>
   );

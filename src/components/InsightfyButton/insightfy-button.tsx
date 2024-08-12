@@ -24,8 +24,8 @@ function InsightfyButton({
       type={type}
       disabled={disabled}
       onClick={click}
-      style={{ width: width }}
-      className={`p-4 rounded-md flex align-center justify-center gap-2 hover:duration-[0.3s] duration-[0.3s] ${
+      style={{ width }}
+      className={`text-sm p-4 rounded-md flex align-center justify-center gap-2 hover:duration-[0.3s] duration-[0.3s] ${
         variant === "contained"
           ? "bg-insightfy-blue hover:bg-insightfy-blue-hover"
           : "border-solid border border-insightfy-blue hover:bg-insightfy-white-hover"
