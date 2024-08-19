@@ -13,7 +13,7 @@ const config: Config = {
           "linear-gradient(180deg, rgba(0,115,252,1) 0%, rgba(85,106,254,1) 82%, rgba(130,102,255,1) 100%)",
       },
       colors: {
-        "insightfy-blue": "#0C77F8",
+        "insightfy-blue": "#0073FC",
         "insightfy-dark-blue": "#170F49",
         "insightfy-blue-hover": "#0C77F895",
         "insightfy-white-hover": "#0C77F835",
@@ -23,7 +23,8 @@ const config: Config = {
         "placeholder-text": "#3C3C4360",
         "insightfy-neutral": "#A0A3BD",
         "insightfy-surface": "#F8FAFC",
-        "insightfy-dark-gray": "#6F7482",
+        "insightfy-textdark-gray": "#908484",
+        "insightfy-border": "#8A8A8E",
       },
       textColor: {
         "ins-blue": "#0073FC",
