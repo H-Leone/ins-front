@@ -28,7 +28,7 @@ function Header() {
                 <img width={30} height={30} src={MenuBar.src} alt="" />
                 <Link href="/home">
                     <p className="text-insightfy-blue font-bold text-lg">Home</p>
-                </Link>=
+                </Link>
             </section>
 
             <div className="flex items-center gap-6">
