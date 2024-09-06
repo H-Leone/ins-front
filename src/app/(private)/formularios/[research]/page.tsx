@@ -24,15 +24,13 @@ function CreateFormPage({ params: { research }, searchParams: { tab } }: CreateF
   }
 
   return (
-    <div>
-      <div className="px-64 flex-col gap-4 flex py-8">
-        <div className="flex justify-between items-center">
-          <InsightfyTabs
-            research={research}
-            currentTab={tab}
-            tabs={tabs}
-          />
-        </div>
+    <div className="m-auto w-3/4 flex-col gap-4 flex py-6">
+      <div className="w-full flex justify-between items-center">
+        <InsightfyTabs
+          research={research}
+          currentTab={tab}
+          tabs={tabs}
+        />
       </div>
     </div>
   );

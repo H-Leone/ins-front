@@ -1,6 +1,6 @@
 function ResearchAnswers() {
     return (
-        <div>
+        <div className="flex flex-col gap-4">
 
             <table className="w-full">
 
@@ -37,6 +37,10 @@ function ResearchAnswers() {
                 </tbody>
 
             </table>
+
+            <div style={{ justifyContent: "right" }} className="flex">
+                <p>1, 2, 3, 4, 5</p>
+            </div>
 
         </div>
     );

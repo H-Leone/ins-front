@@ -1,13 +1,18 @@
-"use client";
 import ImportsCard from "@/components/ImportsCard/imports-card";
-import TextInput from "@/components/TextInput/text-input";
+import SearchBar from "@/components/SearchBar/search-bar";
+import StatusFilter from "@/components/StatusFilter/status-filter";
+import UploadFile from "@/components/UploadFile/upload-file";
 import { IImports } from "@/types/imports";
-import { CloudUpload } from "lucide-react";
-import { useEffect, useState } from "react";
 
-function ImportsPage() {
-  const [search, setSearch] = useState<string>("");
-  const [imports, setImports] = useState<IImports[]>([
+interface IImportsPageProps {
+  searchParams: {
+    search: string;
+    status: string;
+  }
+}
+
+function ImportsPage({ searchParams: { search, status } }: IImportsPageProps) {
+  const imports: IImports[] = [
     {
       name: "Base Colab",
       size: "2Mb",
@@ -28,48 +33,34 @@ function ImportsPage() {
       name: "Base Diretoria",
       size: "64kb",
     },
-  ]);
-  const [currentImports, setCurrentImports] = useState<IImports[]>(imports);
-
-  useEffect(() => {
-    const data = imports;
-    setCurrentImports(data.filter((e) => e.name.includes(search)) ?? []);
-  }, [search, imports]);
+  ].filter(el => {
+    const regex = new RegExp(search || "", "i");
+    return regex.test(el.name)
+  });
 
   return (
     <div className="flex justify-center pt-10 ">
-      <div className="lg:w-[700px] md:w-[500px] w-[400px] flex-col gap-8 flex">
-        <div className="flex justify-between items-center cursor-pointer">
-          <div className="border-dashed border-2 w-full h-[20rem] border-insightfy-blue flex justify-center items-center flex-col">
-            <CloudUpload size={100} />
-            <h2 className="text-[24px] text-insightfy-blue font-extrabold">
-              importar CSV
-            </h2>
-            <p className="text-[20px] text-insightfy-text">
-              arraste aqui ou clique para upload
-            </p>
-          </div>
+      <div className="lg:w-[800px] md:w-[500px] w-[400px] flex-col gap-8 flex">
+
+
+        <UploadFile />
+
+        <div className="w-full flex justify-between items-center">
+
+          <SearchBar width={280} />
+
+          <StatusFilter status={status} options={[{ label: "finished", value: "Finished" }]} />
+
         </div>
-        <TextInput
-          change={setSearch}
-          placeholder="Search"
-          value={search}
-          suffixIcon={"search"}
-        />
-        {!!currentImports.length ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-4xl">
-            {currentImports.map((e) => (
-              <ImportsCard key={e.name} name={e.name} size={e.size} />
+
+        {!!imports.length && (
+          <div className="flex flex-wrap justify-center lg:justify-between gap-6">
+            {imports.map((e) => (
+              <ImportsCard key={e.name} {...e} />
             ))}
           </div>
-        ) : search ? (
-          <p className="text-center w-full">
-            Não existem bases importadas com o nome{" "}
-            <span className="font-bold">&quot;{search}&quot;</span>
-          </p>
-        ) : (
-          <p className="text-center w-full">Não existem bases importadas</p>
         )}
+
       </div>
     </div>
   );

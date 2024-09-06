@@ -15,14 +15,14 @@ function ResearchRating() {
 
     return (
         <div className="flex flex-col gap-6">
-            <span className="w-full flex justify-between text-xs">
+            <span className="w-full flex justify-between text-xs font-medium">
               <p>NOT AT ALL LIKELY</p>
               <p>EXTREMELY LIKELY</p>
             </span>
 
             <div className="flex justify-evenly">
               {[...Array(10).keys()].map((el) => (
-                <div className={`${colors[el] || colors.default} w-11 h-11 flex justify-center items-center text-white text-xl font-bold rounded`}>
+                <div className={`${colors[el as keyof typeof colors] || colors.default} w-11 h-11 flex justify-center items-center text-white text-xl font-bold rounded`}>
                     {el}
                 </div>
               ))}

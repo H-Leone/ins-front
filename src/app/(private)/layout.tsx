@@ -6,9 +6,11 @@ interface HeaderLayoutProps {
 
 function HeaderLayout({ children }: HeaderLayoutProps) {
   return (
-    <div className="py-[110px]">
+    <div>
       <Header />
-      {children}
+      <div className="py-[110px]">
+        {children}
+      </div>
     </div>
   );
 }

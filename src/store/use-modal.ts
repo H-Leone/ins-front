@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type ModalType = "changePassword" | "confirm" | "edit-group";
+export type ModalType = "create-base" | "database";
 
 type ModalStoreData = {
     onConfirm: Function | null;
