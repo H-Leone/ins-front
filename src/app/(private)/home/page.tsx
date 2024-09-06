@@ -29,7 +29,7 @@ function HomePage() {
 
                 <div className="flex flex-col gap-2">
                     {tabs.map(({ name, path, icon }, index) => (
-                        <Link href={path}>
+                        <Link key={index} href={path}>
                             <span className={`hover:bg-insightfy-light-gray/75 flex items-center gap-3 px-4 py-3 rounded-lg duration-200 ${index === 0 && "text-insightfy-blue bg-insightfy-light-gray"}`} key={name}>
                                 <span className="flex justify-center items-center">{icon}</span>
                                 <p className="text-md font-medium">{name}</p>

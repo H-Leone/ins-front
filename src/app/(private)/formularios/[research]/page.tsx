@@ -9,13 +9,15 @@ interface CreateFormPageProps {
   };
   searchParams: {
     tab: string;
+    search: string;
+    pagination: string;
   };
 }
 
-function CreateFormPage({ params: { research }, searchParams: { tab } }: CreateFormPageProps) {
+function CreateFormPage({ params: { research }, searchParams: { tab, search, pagination } }: CreateFormPageProps) {
   const tabs = [
-    { content: <CreateResearchPage/>, name: "Criação de formulário", path: "criacao" },
-    { content: <ResearchAnswers />, name: "Respostas gerais", path: "respostas"},
+    { content: <CreateResearchPage />, name: "Criação de formulário", path: "criacao" },
+    { content: <ResearchAnswers search={search} page={Number(pagination) || 1} />, name: "Respostas gerais", path: "respostas"},
     { content: <></>, name: "Análise de respostas", path: "analise"},
   ];
 

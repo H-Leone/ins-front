@@ -28,7 +28,7 @@ function StatusFilter({ status, options }: IStatusFilterProps) {
     }
 
     return (
-        <span className="relative">
+        <span className="relative flex items-center">
             <span className="flex justify-center items-center absolute top-1/2 -translate-y-1/2 left-3">
                 <Filter size={20} />
             </span>

@@ -22,7 +22,7 @@ function ResearchRating() {
 
             <div className="flex justify-evenly">
               {[...Array(10).keys()].map((el) => (
-                <div className={`${colors[el as keyof typeof colors] || colors.default} w-11 h-11 flex justify-center items-center text-white text-xl font-bold rounded`}>
+                <div key={el} className={`${colors[el as keyof typeof colors] || colors.default} w-12 h-12 flex justify-center items-center text-white text-xl font-bold rounded`}>
                     {el}
                 </div>
               ))}

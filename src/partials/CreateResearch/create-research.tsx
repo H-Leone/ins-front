@@ -46,7 +46,7 @@ function CreateResearchPage() {
         <section className="w-full flex flex-col gap-8 px-8 py-8 border-2 border-insightfy-light-gray rounded-lg">
           <p className="text-sm font-medium text-insightfy-dark-gray">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five.</p>
 
-          <textarea className="bg-insightfy-dark-gray outline-none text-sm p-4 rounded-lg" placeholder="Hint text...">
+          <textarea className="resize-none w-full h-44 bg-gray-500 outline-none text-sm p-4 rounded-lg" placeholder="Hint text...">
 
           </textarea>
 

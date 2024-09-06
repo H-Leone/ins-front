@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import colors from "tailwindcss/colors";
 
 const config: Config = {
   content: [
@@ -28,6 +29,8 @@ const config: Config = {
         "insightfy-surface": "#F8FAFC",
         "insightfy-textdark-gray": "#908484",
         "insightfy-border": "#8A8A8E",
+
+        ...colors
       },
       textColor: {
         "ins-blue": "#0073FC",
