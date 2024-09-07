@@ -30,8 +30,6 @@ function SessionForm({ type }: SessionFormProps) {
 
     const handleSubmit: React.FormEventHandler = (e) => {
         e.preventDefault();
-
-        console.log(loginInfo);
     }
 
     return (

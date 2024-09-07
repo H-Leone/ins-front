@@ -3,6 +3,7 @@
 import { useModal } from "@/store/use-modal";
 import CreateBaseModal from "../CreateBaseModal/create-base-modal";
 import DatabaseModal from "../DatabaseModal/database-modal";
+import TopicModal from "../TopicModal/topic-modal";
 
 function ModalProvider() {
     const { isOpen } = useModal();
@@ -15,6 +16,7 @@ function ModalProvider() {
         >
             <CreateBaseModal />
             <DatabaseModal />
+            <TopicModal />
         </div>
     );
 }

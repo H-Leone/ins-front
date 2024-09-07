@@ -17,7 +17,7 @@ function HomePage() {
     return (
         <div>
 
-            <aside className="w-[300px] fixed overflow-scroll flex flex-col gap-6 p-8 shadow-xl absolute scroll-hidden">
+            <aside className="w-[300px] min-h-screen max-h-screen fixed overflow-scroll flex flex-col gap-6 p-8 shadow-xl scroll-hidden pb-[170px]">
 
                 <section className="flex items-center gap-4">
                     <img width={40} height={40} src={PicpayLogo.src} alt="" />

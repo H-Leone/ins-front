@@ -10,6 +10,7 @@ interface SearchBarProps {
 
 function SearchBar({ width }: SearchBarProps) {
     const searchParams = useSearchParams();
+    const search = searchParams.get("search");
     const pathname = usePathname();
     const { replace } = useRouter();
 
@@ -31,7 +32,7 @@ function SearchBar({ width }: SearchBarProps) {
 
             <Search size={22.5} className="text-placeholder-text" />
             
-            <input onChange={handleChange} className="w-full bg-insightfy-light-gray flex h-full outline-none" type="text" placeholder="Pesquisar..." />
+            <input defaultValue={search || ""} onChange={handleChange} className="w-full bg-insightfy-light-gray flex h-full outline-none" type="text" placeholder="Pesquisar..." />
 
         </div>
     );

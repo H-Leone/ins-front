@@ -29,7 +29,7 @@ function CreateResearchPage() {
 
         <div className="flex gap-4 h-12 px-2 text-white font-semibold">
           <button className="w-full bg-insightfy-blue rounded-lg">Salvar</button>
-          <button className="w-full bg-insightfy-dark-red rounded-lg">Desativar</button>
+          <button className="w-full rounded-lg" style={{ backgroundColor: "#AE0101" }} >Desativar</button>
         </div>
       </div>
 
