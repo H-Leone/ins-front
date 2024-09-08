@@ -10,7 +10,7 @@ interface IResearchAnswersProps {
 }
 
 function ResearchAnswers({ search, page }: IResearchAnswersProps) {
-    // Filtrar
+    // TODO: Filtrar dados na tabela
 
     return (
         <div className="flex flex-col gap-4">
