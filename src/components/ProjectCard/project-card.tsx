@@ -4,7 +4,7 @@ import { IProject } from "@/types/project";
 
 function ProjectCard({ name, answers }: IProject) {
     return (
-        <div className="w-10/12 h-[140px] flex flex-col justify-evenly px-4 py-2 shadow-md">
+        <div className="w-full h-[140px] flex flex-col justify-evenly px-4 py-2 shadow-md">
 
             <div className="flex gap-2">
 

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import colors from "tailwindcss/colors";
 
 const config: Config = {
   content: [
@@ -19,12 +20,17 @@ const config: Config = {
         "insightfy-white-hover": "#0C77F835",
         "insightfy-green": "#008000",
         "insightfy-red": "#FF5A5A",
+        "insightfy-dark-red": "#AE0101",
         "insightfy-gray": "#B3B3B3",
+        "insightfy-light-gray": "#F0F2F5",
+        "insightfy-dark-gray": "#3D404A",
         "placeholder-text": "#3C3C4360",
         "insightfy-neutral": "#A0A3BD",
         "insightfy-surface": "#F8FAFC",
-        "insightfy-text": "#908484",
+        "insightfy-textdark-gray": "#908484",
         "insightfy-border": "#8A8A8E",
+
+        ...colors
       },
       textColor: {
         "ins-blue": "#0073FC",

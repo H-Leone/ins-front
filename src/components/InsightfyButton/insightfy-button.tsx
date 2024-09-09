@@ -1,3 +1,7 @@
+"use client";
+
+import { AdditionalData, ModalType, useModal } from "@/store/use-modal";
+
 interface IInsightfyButtonProps {
   width?: string;
   text: string;
@@ -5,6 +9,8 @@ interface IInsightfyButtonProps {
   variant: "contained" | "outlined";
   icon?: React.ReactNode;
   prefixIcon?: React.ReactNode;
+  modalToOpen?: ModalType;
+  additionalData?: AdditionalData;
   click?: () => void;
   disabled: boolean;
 }
@@ -16,16 +22,28 @@ function InsightfyButton({
   variant,
   icon,
   prefixIcon,
+  modalToOpen,
+  additionalData,
   click,
   disabled,
 }: IInsightfyButtonProps) {
+  const { onOpen } = useModal();
+
+  const handleClick = () => {
+    if(modalToOpen) {
+      onOpen(modalToOpen);
+    }
+
+    click && click();
+  }
+
   return (
     <button
       type={type}
       disabled={disabled}
-      onClick={click}
-      style={{ width: width }}
-      className={`p-4 rounded-md flex align-center justify-center gap-2 hover:duration-[0.3s] duration-[0.3s] ${
+      onClick={handleClick}
+      style={{ width }}
+      className={`h-12 text-sm p-4 rounded-md flex items-center justify-center gap-2 hover:duration-[0.3s] duration-[0.3s] font-semibold ${
         variant === "contained"
           ? "bg-insightfy-blue hover:bg-insightfy-blue-hover"
           : "border-solid border border-insightfy-blue hover:bg-insightfy-white-hover"

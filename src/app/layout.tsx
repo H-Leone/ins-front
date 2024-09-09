@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Montserrat, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import ModalProvider from "@/components/ModalProvider/modal-provider";
 
 interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-const montserrat = Montserrat({
+const montserrat = Plus_Jakarta_Sans({
   subsets: ["latin"]
 });
 
@@ -19,6 +20,7 @@ function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="pt-br">
       <body className={montserrat.className}>
+        <ModalProvider /> 
         {children}
       </body>
     </html>
