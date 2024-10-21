@@ -1,10 +1,10 @@
 "use client";
 
-import { IResearchTopic } from "@/types/research-topic";
+import { ITopic } from "@/types/topic";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { MouseEventHandler } from "react";
 
-function ResearchTopicCard({ id, name, answers }: IResearchTopic) {
+function ResearchTopicCard({ id, name }: ITopic) {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
@@ -21,7 +21,7 @@ function ResearchTopicCard({ id, name, answers }: IResearchTopic) {
         <div onClick={handleClick} className="w-full flex justify-between items-center border border-insightfy-dark-gray px-5 py-4 rounded-lg cursor-pointer hover:bg-insightfy-light-gray duration-200">
             <p>{name}</p>
 
-            <p>{answers}</p>
+            <p>144</p>
         </div>
     );
 }

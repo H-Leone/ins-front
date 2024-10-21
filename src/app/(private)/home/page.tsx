@@ -5,8 +5,10 @@ import Balls from "@/components/Balls/balls";
 import ResearchDataCard from "@/components/ResearchDataCard/research-data-card";
 import Link from "next/link";
 import { Database, LucideBarChart2, Home } from "lucide-react";
+import { getRecentResearchs } from "@/services/get-recent-researches";
 
-function HomePage() {
+async function HomePage() {
+    const recentResearches = await getRecentResearchs();
     const tabs = [
         { name: "Bem-Vindo", path: "/home", icon: <Home size={21} /> },
         { name: "Bases", path: "/importacoes", icon: <Database size={21} /> },
@@ -42,11 +44,9 @@ function HomePage() {
 
                 <div className="flex flex-col items-center gap-6">
 
-                    <ProjectCard name="A chance de pegar um shiny está muito baixa?" answers={142} />
-                    <ProjectCard name="A chance de pegar um shiny está muito baixa?" answers={142} />
-                    <ProjectCard name="A chance de pegar um shiny está muito baixa?" answers={142} />
-                    <ProjectCard name="A chance de pegar um shiny está muito baixa?" answers={142} />
-                    <ProjectCard name="A chance de pegar um shiny está muito baixa?" answers={142} />
+                    {recentResearches.map(research => (
+                        <ProjectCard key={research.id} {...research} />
+                    ))}
 
                 </div>
 

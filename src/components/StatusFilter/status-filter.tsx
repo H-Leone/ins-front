@@ -1,6 +1,6 @@
 "use client";
 
-import { Filter } from "lucide-react";
+import { Filter, ChevronDown } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChangeEventHandler } from "react";
 
@@ -18,27 +18,36 @@ function StatusFilter({ status, options }: IStatusFilterProps) {
         const params = new URLSearchParams(searchParams);
         const query = e.target.selectedOptions[0].value;
 
-        if(query) {
+        if (query) {
             params.set("status", query);
         } else {
             params.delete("status");
         }
-        
+
         replace(`${pathname}?${params.toString()}`);
-    }
+    };
 
     return (
         <span className="relative flex items-center">
             <span className="flex justify-center items-center absolute top-1/2 -translate-y-1/2 left-3">
                 <Filter size={20} />
             </span>
-            <select defaultValue={status} onChange={handleChange} className="w-40 h-9 indent-10 rounded-lg bg-insightfy-light-gray cursor-pointer outline-none">
+
+            <select
+                defaultValue={status}
+                onChange={handleChange}
+                className="w-40 h-9 indent-10 rounded-lg bg-insightfy-light-gray cursor-pointer outline-none appearance-none"
+            >
                 {options.map(({ label, value }) => (
                     <option key={value} value={label}>
                         {value || "All"}
                     </option>
                 ))}
             </select>
+
+            <span className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none">
+                <ChevronDown size={20} />
+            </span>
         </span>
     );
 }

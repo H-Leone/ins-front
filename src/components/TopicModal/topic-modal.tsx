@@ -1,11 +1,14 @@
 "use client";
 
+import { createTopic } from "@/services/create-topic";
 import { useModal } from "@/store/use-modal";
-import { useEffect, useRef } from "react";
+import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 
 function TopicModal() {
-    const modalRef = useRef<HTMLDivElement>(null);
     const { type, additionalData, onClose } = useModal();
+    const [name, setName] = useState(additionalData?.topic?.name);
+    const [description, setDescription] = useState(additionalData?.topic?.description);
+    const modalRef = useRef<HTMLDivElement>(null);
     const modalType = additionalData?.topic ?
         "edit" :
         "create";
@@ -23,8 +26,29 @@ function TopicModal() {
         };
     }, [onClose]);
 
-    const handleSubmit = () => {
-        onClose();
+    const handleSubmit = async () => {
+        console.log(modalType);
+        console.log(additionalData?.survey);
+        if (modalType === "create") {
+            // const response = await createTopic({
+            //     name,
+            //     description,
+            //     survey: additionalData?.survey,
+            //     createdAt: Date.now().toString(),
+            // });
+        } else {
+
+        }
+    
+        // onClose();
+    }    
+
+    const handleChangeName: ChangeEventHandler<HTMLInputElement> = (e) => {
+        setName(e.target.value);
+    }
+
+    const handleChangeDescription: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+        setDescription(e.target.value);
     }
 
     const inputStyle = `w-11/12 p-3 outline-none border border-insightfy-gray rounded-md`;
@@ -36,8 +60,8 @@ function TopicModal() {
             <p className="text-insightfy-blue text-3xl font-bold">
                 {modalType === "create" ? "Crie um" : "Editar"} Tópico
             </p>
-            <input defaultValue={additionalData?.topic?.name} className={inputStyle} type="text" placeholder="Nome..." />
-            <textarea defaultValue={additionalData?.topic?.description} className={inputStyle + " h-28 resize-none"} placeholder="Escreva aqui uma decrição sobre o topico" />
+            <input onChange={handleChangeName} value={name} className={inputStyle} type="text" placeholder="Nome..." />
+            <textarea onChange={handleChangeDescription} value={description} className={inputStyle + " h-28 resize-none"} placeholder="Escreva aqui uma decrição sobre o topico" />
 
             <div className="w-11/12 flex justify-between gap-4 text-white">
                 <button onClick={handleSubmit} className="bg-insightfy-blue text-lg h-10 w-40 rounded">Criar</button>

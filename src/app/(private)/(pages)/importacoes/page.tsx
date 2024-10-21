@@ -39,7 +39,7 @@ function ImportsPage({ searchParams: { search, status } }: IImportsPageProps) {
   });
 
   return (
-    <div className="flex justify-center pt-10 ">
+    <div className="flex justify-center">
       <div className="lg:w-[800px] md:w-[500px] w-[400px] flex-col gap-8 flex">
 
 

@@ -1,17 +1,23 @@
 import Header from "@/components/header";
+import { getCostumer } from "@/services/get-costumer";
 
 interface HeaderLayoutProps {
   children: React.ReactNode;
 }
 
-function HeaderLayout({ children }: HeaderLayoutProps) {
+async function HeaderLayout({ children }: HeaderLayoutProps) {
+  const costumer = await getCostumer("665ef931447e8378bd0f5cc1");
+
   return (
-    <div>
+    <>
+    
       <Header />
-      <div className="py-[110px]">
+
+      <div className="mt-[110px]">
         {children}
       </div>
-    </div>
+
+    </>
   );
 }
 

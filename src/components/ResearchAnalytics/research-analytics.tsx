@@ -1,32 +1,23 @@
 import InsightfyButton from "../InsightfyButton/insightfy-button";
 import SearchBar from "../SearchBar/search-bar";
-import { IResearchTopic } from "@/types/research-topic";
 import ResearchTopicCard from "../ResearchTopicCard/research-topic-card";
 import ResponseGenericAnalytics from "../ResponseGenericAnalytics/response-generic-analytics";
 import TopicAnalytics from "../TopicAnalytics/topic-analytics";
+import { getTopics } from "@/services/get-topics";
 
 interface IResearchAnalyticsProps {
+    researchId: string;
     search: string;
     topic: string;
 }
 
-function ResearchAnalytics({ search, topic }: IResearchAnalyticsProps) {
-    const t = Number(topic);
-    const topics: IResearchTopic[] = [  
-        { id: 1, name: "Produto fora da validade", description: "Teste", answers: 144 },
-        { id: 2, name: "Produto fora da validade", description: "Teste", answers: 144 },
-        { id: 3, name: "Produto fora da validade", description: "Teste", answers: 144 },
-        { id: 4, name: "Produto fora da validade", description: "Teste", answers: 144 },
-        { id: 5, name: "Produto fora da validade", description: "Teste", answers: 144 },
-        { id: 6, name: "Produto fora da validade", description: "Teste", answers: 144 },
-        { id: 7, name: "Produto fora da validade", description: "Teste", answers: 144 },
-    ];
+async function ResearchAnalytics({ researchId, search, topic }: IResearchAnalyticsProps) {
+    const topics = await getTopics(researchId);
     const selectedTopic = topics
-        .find(topic => topic.id === t);
+        .find(el => el.id === topic);
     const filteredTopics = topics
         .filter(el => {
             const regex = new RegExp(search, 'i');
-    
             return regex.test(el.name);
         });
 
@@ -34,7 +25,9 @@ function ResearchAnalytics({ search, topic }: IResearchAnalyticsProps) {
         <div className="flex gap-12">
 
             <aside className="w-1/2 flex flex-col gap-4">
-                <div className="flex justify-between items-center gap-6">
+                <p className="flex text-insightfy-dark-gray font-semibold text-lg">Tópicos</p>
+
+                <div className="flex justify-between items-center gap-6 mb-2">
                     <SearchBar />
 
                     <InsightfyButton 
@@ -44,7 +37,8 @@ function ResearchAnalytics({ search, topic }: IResearchAnalyticsProps) {
                         width="180px"
                         modalToOpen="topic"
                         additionalData={{
-                            topic: selectedTopic
+                            topic: selectedTopic,
+                            survey: researchId
                         }}
                         disabled={false}
                     />
@@ -55,8 +49,6 @@ function ResearchAnalytics({ search, topic }: IResearchAnalyticsProps) {
 
                     <p className="uppercase">Relatório</p>
                 </span> */}
-
-                <p className="flex text-insightfy-dark-gray font-semibold text-lg">Tópicos</p>
 
                 <div className="flex flex-col gap-4">
 

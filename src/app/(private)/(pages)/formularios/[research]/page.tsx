@@ -18,9 +18,9 @@ interface CreateFormPageProps {
 
 function CreateFormPage({ params: { research }, searchParams: { tab, search, pagination, topic } }: CreateFormPageProps) {
   const tabs = [
-    { content: <CreateResearchPage />, name: "Criação de formulário", path: "criacao" },
-    { content: <ResearchAnswers search={search} page={Number(pagination) || 1} />, name: "Respostas gerais", path: "respostas"},
-    { content: <ResearchAnalytics search={search} topic={topic} />, name: "Análise de respostas", path: "analise"},
+    { content: <CreateResearchPage researchId={research} />, name: "Criação de formulário", path: "criacao" },
+    { content: <ResearchAnswers search={search} page={Number(pagination) || 1} research={research} />, name: "Respostas gerais", path: "respostas"},
+    { content: <ResearchAnalytics researchId={research} search={search} topic={topic} />, name: "Análise de respostas", path: "analise"},
   ];
 
   if(!tab) {
@@ -28,7 +28,7 @@ function CreateFormPage({ params: { research }, searchParams: { tab, search, pag
   }
 
   return (
-    <div className="m-auto w-3/4 flex-col gap-4 flex py-6">
+    <div className="m-auto w-3/4 flex-col gap-4 flex pb-6">
       <div className="w-full flex justify-between items-center">
         <InsightfyTabs
           research={research}

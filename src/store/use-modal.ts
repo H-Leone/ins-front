@@ -1,10 +1,11 @@
-import { IResearchTopic } from "@/types/research-topic";
+import { ITopic } from "@/types/topic";
 import { create } from "zustand";
 
 export type ModalType = "create-base" | "database" | "topic";
 
 export type AdditionalData = {
-    topic?: Partial<IResearchTopic>;
+    topic?: Partial<ITopic>;
+    survey?: string;
 }
 
 interface ModalStore {
