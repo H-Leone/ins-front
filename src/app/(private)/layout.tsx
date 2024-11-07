@@ -6,17 +6,13 @@ interface HeaderLayoutProps {
 }
 
 async function HeaderLayout({ children }: HeaderLayoutProps) {
-  const costumer = await getCostumer("665ef931447e8378bd0f5cc1");
+  const costumer = await getCostumer("672bb4a130ceee79970207da");
 
   return (
     <>
-    
       <Header />
 
-      <div className="mt-[110px]">
-        {children}
-      </div>
-
+      <div className="mt-[110px]">{children}</div>
     </>
   );
 }

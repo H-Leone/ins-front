@@ -1,7 +1,8 @@
 import { ICompany } from "./company";
 
 export interface ICostumer {
-    id: string;
-    email: string;
-    company: ICompany;
+  id: string;
+  email: string;
+  phone: string;
+  company: ICompany;
 }

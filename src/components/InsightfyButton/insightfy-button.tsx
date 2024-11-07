@@ -30,12 +30,12 @@ function InsightfyButton({
   const { onOpen } = useModal();
 
   const handleClick = () => {
-    if(modalToOpen) {
+    if (modalToOpen) {
       onOpen(modalToOpen);
     }
 
     click && click();
-  }
+  };
 
   return (
     <button
@@ -43,11 +43,20 @@ function InsightfyButton({
       disabled={disabled}
       onClick={handleClick}
       style={{ width }}
-      className={`h-12 text-sm p-4 rounded-md flex items-center justify-center gap-2 hover:duration-[0.3s] duration-[0.3s] font-semibold ${
-        variant === "contained"
-          ? "bg-insightfy-blue hover:bg-insightfy-blue-hover"
-          : "border-solid border border-insightfy-blue hover:bg-insightfy-white-hover"
-      }
+      className={`
+        h-12 text-sm p-4 rounded-md flex items-center justify-center gap-2 hover:duration-[0.3s] duration-[0.3s] font-semibold 
+        ${
+          !disabled
+            ? variant === "contained"
+              ? "bg-insightfy-blue hover:bg-insightfy-blue-hover"
+              : "border-solid border border-insightfy-blue hover:bg-insightfy-white-hover"
+            : ""
+        }
+        ${
+          disabled
+            ? "bg-gray-300 text-gray-500 border-gray-300 hover:bg-gray-300 cursor-not-allowed "
+            : ""
+        }
       `}
     >
       {prefixIcon && prefixIcon}
