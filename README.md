@@ -32,6 +32,11 @@ Instale os pacotes da aplicação:
 npm install
 ```
 
+## Importante
+Para que o projeto possa realizar chamadas API ele deve conter a .env configurada. O modelo a ser seguido está no arquivo .env.example
+
+Qualquer problema com a configuração da .env, falar com a equipe do Insightfy.
+
 Para rodar no modo de desenvolvimento use:
 
 ```bash
