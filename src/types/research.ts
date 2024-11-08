@@ -1,3 +1,4 @@
+import { IImports } from "./imports";
 import { ResearchStatusEnum } from "./research-status.enum";
 
 export interface IForm {
@@ -11,10 +12,11 @@ export enum FormTypes {
     TEXT_BOXES = "2",
     ORDERED_TEXT_BOXES = "3",
     TEXT = "4",
+    CHECKBOX = "5"
 }  
 
 export interface IResearch {
-    id: string;
+    id?: string;
     title: string;
     app: boolean;
     email: boolean;
@@ -25,4 +27,5 @@ export interface IResearch {
     scheduledDate: Date;
     endDate?: Date;
     form: IForm[];
+    base: IImports | string;
 }

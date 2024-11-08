@@ -1,7 +1,7 @@
-import { ICompany } from "./company";
-
 export interface ICostumer {
     id: string;
+    name: string;
+    surname: string;
     email: string;
-    company: ICompany;
+    phone: string;
 }

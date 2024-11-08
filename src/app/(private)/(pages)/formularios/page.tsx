@@ -5,6 +5,7 @@ import StatusFilter from "@/components/StatusFilter/status-filter";
 import { getSurveys } from "@/services/get-surveys";
 import { ResearchStatusEnum } from "@/types/research-status.enum";
 import { PlusIcon } from "lucide-react";
+import Link from "next/link";
 
 interface IFormsPageProps {
   searchParams: {
@@ -31,17 +32,19 @@ async function FormsPage({ searchParams: { search, status } }: IFormsPageProps) 
               { label: "", value: "All" },
               ...Object.entries(ResearchStatusEnum).map(([key, value]) => ({ label: key, value }))
           ]} status={status} />
-          <InsightfyButton
-            width="145"
-            disabled={false}
-            type="button"
-            text="Nova Pesquisa"
-            variant="contained"
-            icon={<PlusIcon className="text-white w-6 h-6" size={15} />}
-          />
+          <Link href="/formularios/config">
+            <InsightfyButton
+              width="145"
+              disabled={false}
+              type="button"
+              text="Nova Pesquisa"
+              variant="contained"
+              icon={<PlusIcon className="text-white w-6 h-6" size={15} />}
+            />
+          </Link>
         </div>
 
-        <div className="mt-8 flex-col gap-4 flex">
+        <div className="mt-8 flex-col gap-4 flex py-4">
           {!!researches.length
             ? researches.map((e, index) => <ResearchCard key={index} {...e} />)
             : <p className="m-8 text-center">Nada na lista...</p>}

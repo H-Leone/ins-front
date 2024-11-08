@@ -4,6 +4,7 @@ import ResearchTopicCard from "../ResearchTopicCard/research-topic-card";
 import ResponseGenericAnalytics from "../ResponseGenericAnalytics/response-generic-analytics";
 import TopicAnalytics from "../TopicAnalytics/topic-analytics";
 import { getTopics } from "@/services/get-topics";
+import { getSurveySummary } from "@/services/get-survey-summary";
 
 interface IResearchAnalyticsProps {
     researchId: string;
@@ -20,13 +21,12 @@ async function ResearchAnalytics({ researchId, search, topic }: IResearchAnalyti
             const regex = new RegExp(search, 'i');
             return regex.test(el.name);
         });
+    const surveySummary = await getSurveySummary(researchId);
 
     return (
         <div className="flex gap-12">
 
             <aside className="w-1/2 flex flex-col gap-4">
-                <p className="flex text-insightfy-dark-gray font-semibold text-lg">Tópicos</p>
-
                 <div className="flex justify-between items-center gap-6 mb-2">
                     <SearchBar />
 
@@ -50,10 +50,14 @@ async function ResearchAnalytics({ researchId, search, topic }: IResearchAnalyti
                     <p className="uppercase">Relatório</p>
                 </span> */}
 
+                <ResearchTopicCard />
+
+                <p className="flex text-insightfy-dark-gray font-semibold text-lg">Tópicos</p>
+
                 <div className="flex flex-col gap-4">
 
                     {filteredTopics.map((topic, index) => (
-                        <ResearchTopicCard {...topic} key={index} />
+                        <ResearchTopicCard topic={topic} key={index} />
                     ))}
                     
                 </div>
@@ -61,8 +65,7 @@ async function ResearchAnalytics({ researchId, search, topic }: IResearchAnalyti
 
             {!!selectedTopic ? 
                 <TopicAnalytics {...selectedTopic} /> : 
-                <ResponseGenericAnalytics />}
-
+                <ResponseGenericAnalytics summary={surveySummary} />}
         </div>
     );
 }

@@ -6,8 +6,10 @@ import ResearchDataCard from "@/components/ResearchDataCard/research-data-card";
 import Link from "next/link";
 import { Database, LucideBarChart2, Home } from "lucide-react";
 import { getRecentResearchs } from "@/services/get-recent-researches";
+import { getUser } from "@/services/get-user";
 
 async function HomePage() {
+    const user = await getUser();
     const recentResearches = await getRecentResearchs();
     const tabs = [
         { name: "Bem-Vindo", path: "/home", icon: <Home size={21} /> },
@@ -22,9 +24,9 @@ async function HomePage() {
             <aside className="w-[300px] min-h-screen max-h-screen fixed overflow-scroll flex flex-col gap-6 p-8 shadow-xl scroll-hidden pb-[170px]">
 
                 <section className="flex items-center gap-4">
-                    <img width={40} height={40} src={PicpayLogo.src} alt="" />
+                    <img width={40} height={40} src={user.company.logo} alt="" />
                     <div>
-                        <p className="text-md font-semibold">PicPay</p>
+                        <p className="text-md font-semibold">{user.company.name}</p>
                         <p className="text-sm text-insightfy-dark-gray">Seus Fluxos</p>
                     </div>
                 </section>

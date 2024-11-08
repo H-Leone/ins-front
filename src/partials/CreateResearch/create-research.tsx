@@ -1,53 +1,190 @@
+"use client";
+
 import CommunicationMethods from "@/components/CommunicationMethods/communication-methods";
 import InsightfyButton from "@/components/InsightfyButton/insightfy-button";
 import ResearchForm from "@/components/ResearchForm/research-form";
-import { getSurvey } from "@/services/get-survey";
+import { patchResearch } from "@/services/patch-research";
+import { useModal } from "@/store/use-modal";
+import { IImports } from "@/types/imports";
+import { IResearch } from "@/types/research";
+import { ResearchStatusEnum } from "@/types/research-status.enum";
 import { researchStatusColor } from "@/utils/research-status-color";
 import { format } from "date-fns";
+import { ChevronDown, Database } from "lucide-react";
+import { ChangeEvent, ChangeEventHandler, useState } from "react";
 
 interface CreateResearchPageProps {
-  researchId: string;
+  research: IResearch;
+  bases: IImports[];
 }
 
-async function CreateResearchPage({ researchId }: CreateResearchPageProps) {
-  const research = await getSurvey(researchId);
+function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
+  const [survey, setSurvey] = useState<IResearch>(research);
+  const [title, setTitle] = useState<string>(research.title);
+  const { onOpen } = useModal();
+
+  const handleToggleCommunication = (method: string) => {
+    const updatedSurvey = {
+      ...survey,
+      [method]: !survey[method as keyof IResearch]
+    }
+
+    console.log(updatedSurvey);
+
+    if (updatedSurvey.id) {
+      setSurvey(updatedSurvey);
+      patchResearch(updatedSurvey.id, updatedSurvey);
+    }
+  }
+
+  const handleDeleteQuestion = (index: number) => {
+    const updatedSurvey = {
+      ...survey,
+      form: survey.form.filter((f, i) => index !== i)
+    }
+
+    if (updatedSurvey.id) {
+      patchResearch(updatedSurvey.id, updatedSurvey);
+      setSurvey(updatedSurvey);
+    }
+  }
+
+  const handleChangeForm = (index: number, newDescription: string) => {
+    const updatedSurvey = {
+      ...survey,
+      form: survey.form.map((f, i) =>
+        i === index ? { ...f, description: newDescription } : f
+      ),
+    };
+    setSurvey(updatedSurvey);
+  };
+
+  const handleChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    const updatedSurvey = {
+      ...survey,
+      base: e.target.value
+    }
+
+    if (updatedSurvey.id) {
+      patchResearch(updatedSurvey.id, updatedSurvey);
+    }
+  }
+
+  const handleUpdateQuestion = () => {
+    if (survey.id) patchResearch(survey.id, survey);
+  }
+
+  const handleDisable = () => {
+    const updatedSurvey = {
+      ...survey,
+      status: ResearchStatusEnum.DISABLED
+    }
+
+    if (updatedSurvey.id) {
+      patchResearch(updatedSurvey.id, updatedSurvey);
+      setSurvey(updatedSurvey);
+    }
+  }
+
+  const handleTrigger = () => {
+    console.log("trigger the email");
+    const updatedSurvey = {
+      ...survey,
+      status: ResearchStatusEnum.ACTIVE
+    }
+
+    if (updatedSurvey.id) {
+      patchResearch(updatedSurvey.id, updatedSurvey);
+      setSurvey(updatedSurvey);
+    }
+  }
+
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleTitleUpdate = () => {
+    if (survey.id && title !== survey.title) {
+      const updatedSurvey = { ...survey, title };
+
+      if (updatedSurvey.id) {
+        patchResearch(updatedSurvey.id, updatedSurvey);
+        setSurvey(updatedSurvey);
+      }
+    }
+  };
 
   return (
     <div className="flex gap-10">
       <div className="w-[400px] flex flex-col gap-6 px-6">
         <div>
-          <p className={`text-lg font-semibold ${researchStatusColor(research.status)}`}>Ativo</p>
-          <p className="text-insightfy-dark-gray">desde {format(research.scheduledDate, "dd/mm/yyyy HH:mm")}</p>
+          <p className={`text-lg font-semibold ${researchStatusColor(survey.status)}`}>{survey.status}</p>
+          <p className="text-insightfy-dark-gray">desde {format(survey.scheduledDate, "dd/mm/yyyy HH:mm")}</p>
         </div>
 
-        <input type="text" className="h-12 border border-insightfy-gray rounded-lg outline-none px-3" />
+        <span className="relative flex items-center">
+          <span className="flex justify-center items-center absolute top-1/2 -translate-y-1/2 left-3">
+            <Database size={20} />
+          </span>
 
-        <CommunicationMethods />
+          <select
+            onChange={handleChange}
+            className="w-full h-12 indent-10 rounded-lg bg-insightfy-light-gray cursor-pointer outline-none appearance-none"
+            defaultValue={typeof research.base === "object" && research.base.id ? research.base.id : ""}
+          >
+            {bases.map((base) => (
+              <option key={base.id} value={base.id}>
+                {base.name || "All"}
+              </option>
+            ))}
+          </select>
+
+
+
+          <span className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none">
+            <ChevronDown size={20} />
+          </span>
+        </span>
+        {/* <input type="text" className="h-12 border border-insightfy-gray rounded-lg outline-none px-3" /> */}
+
+        <CommunicationMethods {...survey} change={handleToggleCommunication} />
 
         <div className="flex gap-4 h-12 px-2 text-white font-semibold">
-          <button className="w-full bg-insightfy-blue rounded-lg">Salvar</button>
-          <button className="w-full rounded-lg" style={{ backgroundColor: "#AE0101" }} >Desativar</button>
+          {survey.status !== ResearchStatusEnum.ACTIVE && (
+            <button onClick={handleTrigger} className="w-full bg-insightfy-blue rounded-lg">Disparar</button>
+          )}
+          <button onClick={handleDisable} className="w-full rounded-lg" style={{ backgroundColor: "#AE0101" }} >Desativar</button>
         </div>
       </div>
 
       <div className="w-full flex flex-col gap-8 shadow-3xl">
 
         <section className="w-full flex justify-center flex-col px-8 py-8 rounded-lg border-2 border-insightfy-light-gray">
-          <input 
+          <input
             type="text"
             className="w-full text-3xl border-b-2 px-4 py-3 outline-none font-semibold"
-            defaultValue={research.title}
+            value={title}
+            onChange={handleTitleChange}
+            onBlur={handleTitleUpdate}
           />
         </section>
 
-        {research.form.map(f => (
-          <ResearchForm {...f} />
+        {survey.form.map((f, index) => (
+          <ResearchForm
+            deleteQuestion={() => handleDeleteQuestion(index)}
+            isActive={survey.status === ResearchStatusEnum.ACTIVE}
+            key={index}
+            updateQuestion={handleUpdateQuestion}
+            changeForm={(newDescription: string) => handleChangeForm(index, newDescription)}
+            {...f}
+          />
         ))}
 
         <div className="flex" style={{ justifyContent: "right" }}>
           <InsightfyButton
             type="button"
-            disabled={false}
+            click={() => onOpen("create-question", { research: survey })}
+            disabled={survey.status === ResearchStatusEnum.ACTIVE}
             text="Nova Pergunta"
             variant="contained"
             width="170px"

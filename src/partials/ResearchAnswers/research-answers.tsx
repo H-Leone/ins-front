@@ -13,17 +13,11 @@ async function ResearchAnswers({ research, search, page }: IResearchAnswersProps
     const responses = (await getResponses(research))
         .filter(response => {
             const values = Object.values(response)
-                .map(el => el.includes(search))
+                .map(el => (typeof el === "object" && el["name"]) ? el["name"].includes(search) : el.includes(search))
                 .find(el => !!el);
 
             return search ? values : true;
         });
-    const properties = [
-        "user",
-        "email",
-        "phone",
-        "answer",
-    ];
 
     return (
         <div className="flex flex-col gap-4">
@@ -34,17 +28,23 @@ async function ResearchAnswers({ research, search, page }: IResearchAnswersProps
             <table className="w-full mt-8">
                 <thead className="bg-insightfy-blue h-14 rounded-md">
                     <tr className="text-center text-white font-semibold">
-                        {properties.map(property => (
-                            <td className="capitalize" key={property}>{property}</td>
-                        ))}
+                        <td className="capitalize">Nome</td>
+                        <td className="capitalize">E-mail</td>
+                        <td className="capitalize">Resposta</td>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {responses.map((el) => (
-                        <tr className="border border-gray-300 text-center font-medium h-14" key={el.email}>
-                            {Object.entries(el).map(([key, value]) => properties.includes(key) ? <td key={value}>{value}</td> : null)}
-                        </tr>
+                    {responses.map((el, index) => (
+                        <>
+                            {el.surveyAnswers?.map((answer, i) => (
+                                <tr className="border border-gray-300 text-center font-medium h-14" key={index + i}>
+                                    <td>{el.user.name}</td>
+                                    <td>{el.email}</td>
+                                    <td>{answer.answer}</td>
+                                </tr>
+                            ))}
+                        </>
                     ))}
                 </tbody>
             </table>

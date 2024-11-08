@@ -5,7 +5,7 @@ import Link from "next/link";
 
 function ProjectCard({ id, title }: IResearch) {
     return (
-        <Link className="w-full" href={`/formularios/${id}`}>
+        <Link className="w-full" href={`/formularios/config/${id}`}>
             <div className="w-full h-[140px] flex flex-col justify-evenly px-4 py-2 shadow-md">
                 <div className="flex gap-2">
                     <Image

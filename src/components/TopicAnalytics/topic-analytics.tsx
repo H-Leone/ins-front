@@ -1,10 +1,11 @@
 import { ChevronDown, ChevronsDown, ChevronsUp, ChevronsUpDown, ChevronUp } from "lucide-react";
 import TopicHeader from "../TopicHeader/topic-header";
 import { ITopic } from "@/types/topic";
+import { analyzeResponses } from "@/services/analyze-responses";
 
 type FeedbackType = "Bem Negativo" | "Negativo" | "Neutro" | "Positivo" | "Bem Positivo";
 
-async function TopicAnalytics({ id, name, description }: ITopic) {
+async function TopicAnalytics({ id, name, description, survey }: ITopic) {
     const topicFeedback: Record<FeedbackType, JSX.Element> = {
         "Bem Negativo": <ChevronsDown size={22.5} className="text-insightfy-red" />,
         "Negativo": <ChevronDown size={22.5} className="text-insightfy-red" />,
@@ -13,12 +14,7 @@ async function TopicAnalytics({ id, name, description }: ITopic) {
         "Bem Positivo": <ChevronsUp size={22.5} className="text-insightfy-green" />,
     };
 
-    const responses: { feedback: FeedbackType }[] = [
-        { feedback: "Bem Negativo" },
-        { feedback: "Bem Negativo" },
-        { feedback: "Bem Negativo" },
-        { feedback: "Bem Negativo" },
-    ];
+    const responses = await analyzeResponses(survey);
 
     return (
         <section className="w-full flex flex-col gap-6">
@@ -39,10 +35,10 @@ async function TopicAnalytics({ id, name, description }: ITopic) {
                 {responses.map((response, index) => (
                     <div className="flex flex-col gap-3 border-b border-insightfy-gray px-2 py-6" key={index}>
                         <div className="flex items-center gap-2">
-                            {topicFeedback[response.feedback]}
-                            <p className="text-xs text-insightfy-border">Aug 14, 2024, 09:41 AM - {response.feedback}</p>
+                            {topicFeedback[response.grade]}
+                            <p className="text-xs text-insightfy-border">Aug 14, 2024, 09:41 AM - {response.grade}</p>
                         </div>
-                        <p className="text-sm">Este é um espaço dedicado à criação e desenvolvimento de ideias inovadoras. Nosso objetivo é construir soluções que sejam intuitivas, funcionais e visualmente atraentes. Colaboramos para transformar conceitos em realidade, sempre com foco na experiência do usuário.</p>
+                        <p className="text-sm">{response.response}</p>
                     </div>
                 ))}
             </div>

@@ -14,7 +14,7 @@ function ResearchCard({
   scheduledDate,
 }: IResearch) {
   return (
-    <Link href={`/formularios/${id}`}>
+    <Link href={`/formularios/config/${id}`}>
       <div className="px-12 py-6 border-solid border border-[#8A8A8E] rounded-lg flex justify-between items-center gap-2 shadow-md">
         <div className="flex flex-col gap-2">
           <p className="text-lg font-bold">{title}</p>

@@ -27,8 +27,6 @@ function TopicModal() {
     }, [onClose]);
 
     const handleSubmit = async () => {
-        console.log(modalType);
-        console.log(additionalData?.survey);
         if (modalType === "create") {
             // const response = await createTopic({
             //     name,

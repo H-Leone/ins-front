@@ -5,6 +5,7 @@ import { AdditionalData, ModalType, useModal } from "@/store/use-modal";
 interface IInsightfyButtonProps {
   width?: string;
   text: string;
+  fontSize?: string;
   type: "button" | "submit" | "reset";
   variant: "contained" | "outlined";
   icon?: React.ReactNode;
@@ -24,6 +25,7 @@ function InsightfyButton({
   prefixIcon,
   modalToOpen,
   additionalData,
+  fontSize,
   click,
   disabled,
 }: IInsightfyButtonProps) {
@@ -34,7 +36,7 @@ function InsightfyButton({
       onOpen(modalToOpen);
     }
 
-    click && click();
+    if(click) click();
   }
 
   return (
@@ -43,7 +45,7 @@ function InsightfyButton({
       disabled={disabled}
       onClick={handleClick}
       style={{ width }}
-      className={`h-12 text-sm p-4 rounded-md flex items-center justify-center gap-2 hover:duration-[0.3s] duration-[0.3s] font-semibold ${
+      className={`h-12 text-sm p-4 rounded-md flex items-center justify-center gap-2 hover:duration-[0.3s] duration-[0.3s] font-semibold ${disabled && "bg-insightfy-blue/50"} ${
         variant === "contained"
           ? "bg-insightfy-blue hover:bg-insightfy-blue-hover"
           : "border-solid border border-insightfy-blue hover:bg-insightfy-white-hover"
@@ -52,6 +54,7 @@ function InsightfyButton({
     >
       {prefixIcon && prefixIcon}
       <span
+        style={{ fontSize }}
         className={`${
           variant === "contained" ? "text-white" : "text-insightfy-blue"
         }`}

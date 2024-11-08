@@ -3,11 +3,19 @@
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-function BackButton() {
+interface BackButtonProps {
+    path?: string;
+}
+
+function BackButton({ path }: BackButtonProps) {
     const router = useRouter();
 
     const handleClick = () => {
-        router.back();
+        if(path) {
+            router.push(path);
+        } else {
+            router.back();
+        }
     }
 
     return (

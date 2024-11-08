@@ -1,11 +1,15 @@
+import { IResearch } from "@/types/research";
 import { ITopic } from "@/types/topic";
 import { create } from "zustand";
 
-export type ModalType = "create-base" | "database" | "topic";
+export type ModalType = "create-base" | "database" | "topic" | "create-question";
 
 export type AdditionalData = {
     topic?: Partial<ITopic>;
     survey?: string;
+    research?: IResearch;
+    file?: Buffer;
+    base?: string;
 }
 
 interface ModalStore {
@@ -13,7 +17,7 @@ interface ModalStore {
 
     type: ModalType | null;
     isOpen: boolean;
-    onOpen: (type: ModalType, extraData?: Partial<AdditionalData>) => void;
+    onOpen: (type: ModalType, additionalData?: Partial<AdditionalData>) => void;
     onClose: () => void;
 }
 

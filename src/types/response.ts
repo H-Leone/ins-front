@@ -1,8 +1,16 @@
+import { ICostumer } from "./costumer";
+
 export interface IResponse {
     id: string;
-    user: string;
+    user: ICostumer;
     email: string;
     phone: string;
     answer: string | number;
-    survey: string;
+    surveyAnswers: SurveyAnswer[];
+    topic: string;
+}
+
+interface SurveyAnswer {
+    type: string;
+    answer: string;
 }
