@@ -158,7 +158,6 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
       </div>
 
       <div className="w-full flex flex-col gap-8 shadow-3xl">
-
         <section className="w-full flex justify-center flex-col px-8 py-8 rounded-lg border-2 border-insightfy-light-gray">
           <input
             type="text"
@@ -190,7 +189,6 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
             width="170px"
           />
         </div>
-
       </div>
     </div>
   );

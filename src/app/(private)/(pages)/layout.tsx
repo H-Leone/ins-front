@@ -1,19 +1,17 @@
 import BackButton from "@/components/BackButton/back-button";
 
 interface PagesLayoutProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 function PagesLayout({ children }: PagesLayoutProps) {
-    return (
-        <>
+  return (
+    <>
+      <BackButton />
 
-            <BackButton />
-
-            {children}
-
-        </>
-    );
+      {children}
+    </>
+  );
 }
 
 export default PagesLayout;

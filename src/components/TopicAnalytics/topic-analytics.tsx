@@ -35,7 +35,7 @@ async function TopicAnalytics({ id, name, description, survey }: ITopic) {
                 {responses.map((response, index) => (
                     <div className="flex flex-col gap-3 border-b border-insightfy-gray px-2 py-6" key={index}>
                         <div className="flex items-center gap-2">
-                            {topicFeedback[response.grade]}
+                            {topicFeedback[response.grade as FeedbackType]}
                             <p className="text-xs text-insightfy-border">Aug 14, 2024, 09:41 AM - {response.grade}</p>
                         </div>
                         <p className="text-sm">{response.response}</p>

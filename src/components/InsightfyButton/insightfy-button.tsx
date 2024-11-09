@@ -32,7 +32,7 @@ function InsightfyButton({
   const { onOpen } = useModal();
 
   const handleClick = () => {
-    if(modalToOpen) {
+    if (modalToOpen) {
       onOpen(modalToOpen);
     }
 

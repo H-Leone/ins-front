@@ -2,11 +2,11 @@ import { IImports } from "./imports";
 import { ResearchStatusEnum } from "./research-status.enum";
 
 export interface IForm {
-    surveyType: FormTypes;
-    description: string;
-    responses: (string | number)[];
+  surveyType: FormTypes;
+  description: string;
+  responses: (string | number)[] | string;
 }
-  
+
 export enum FormTypes {
     GRADE = "1",
     TEXT_BOXES = "2",
@@ -28,4 +28,14 @@ export interface IResearch {
     endDate?: Date;
     form: IForm[];
     base: IImports | string;
+}
+
+export interface IResponseSurvey {
+  id: string;
+  topic: string;
+  survey: string;
+  user: string;
+  email: string;
+  phone: string;
+  survey_answers: { type: string; answer: string }[];
 }

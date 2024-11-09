@@ -56,7 +56,7 @@ function ResearchForm({ surveyType, description, responses, deleteQuestion, chan
                     {renderFormDescription()}
 
                     <ul className="flex flex-col gap-4 cursor-pointer">
-                        {responses.map(response => (
+                        {(responses as string[]).map(response => (
                             <li key={response} onClick={handleSelectResponse(response.toString())} className="flex items-center gap-2">
                                 <input checked={response === selectedResponse} type="radio" readOnly />
                                 <p>{response}</p>

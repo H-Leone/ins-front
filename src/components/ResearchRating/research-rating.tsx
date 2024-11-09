@@ -17,12 +17,12 @@ function ResearchRating({ responses }: ResearchRatingProps) {
         default: "bg-[#AEC93C]"
     };
 
-    return (
-        <div className="flex flex-col gap-6">
-            <span className="w-full flex justify-between text-xs font-medium">
-              <p>NOT AT ALL LIKELY</p>
-              <p>EXTREMELY LIKELY</p>
-            </span>
+  return (
+    <div className="flex flex-col gap-6">
+      <span className="w-full flex justify-between text-xs font-medium">
+        <p>NOT AT ALL LIKELY</p>
+        <p>EXTREMELY LIKELY</p>
+      </span>
 
             <div className="flex justify-evenly">
               {responses.map((el, index) => (

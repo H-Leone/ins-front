@@ -15,13 +15,9 @@ async function HeaderLayout({ children }: HeaderLayoutProps) {
 
   return (
     <>
-    
       <Header />
 
-      <div className="mt-[110px]">
-        {children}
-      </div>
-
+      <div className="mt-[110px]">{children}</div>
     </>
   );
 }
