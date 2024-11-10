@@ -50,7 +50,6 @@ function DatabaseModal() {
       className="w-2/3 min-h-[500px] max-h-[500px] overflow-y-scroll rounded-md bg-white flex flex-col justify-around items-center gap-6 select-none p-16 pt-6"
     >
       {!!costumers.length ? (
-        <div className="w-full max-h-[400px] overflow-y-auto">
           <table className="w-full text-left max-h-[500px]">
             <thead className="">
               <tr className="border-b border-b-insightfy-gray">
@@ -71,7 +70,6 @@ function DatabaseModal() {
               ))}
             </tbody>
           </table>
-        </div>
       ) : !isLoading ? (
         <p>Nenhum usuário cadastrado!</p>
       ) : (
