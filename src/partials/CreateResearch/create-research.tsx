@@ -3,7 +3,10 @@
 import CommunicationMethods from "@/components/CommunicationMethods/communication-methods";
 import InsightfyButton from "@/components/InsightfyButton/insightfy-button";
 import ResearchForm from "@/components/ResearchForm/research-form";
+import { getBases } from "@/services/get-bases";
+import { getCostumerBase } from "@/services/get-costumers-base";
 import { patchResearch } from "@/services/patch-research";
+import { sendEmails } from "@/services/send-email";
 import { useModal } from "@/store/use-modal";
 import { IImports } from "@/types/imports";
 import { IResearch } from "@/types/research";
@@ -26,28 +29,26 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
   const handleToggleCommunication = (method: string) => {
     const updatedSurvey = {
       ...survey,
-      [method]: !survey[method as keyof IResearch]
-    }
-
-    console.log(updatedSurvey);
+      [method]: !survey[method as keyof IResearch],
+    };
 
     if (updatedSurvey.id) {
       setSurvey(updatedSurvey);
       patchResearch(updatedSurvey.id, updatedSurvey);
     }
-  }
+  };
 
   const handleDeleteQuestion = (index: number) => {
     const updatedSurvey = {
       ...survey,
-      form: survey.form.filter((f, i) => index !== i)
-    }
+      form: survey.form.filter((f, i) => index !== i),
+    };
 
     if (updatedSurvey.id) {
       patchResearch(updatedSurvey.id, updatedSurvey);
       setSurvey(updatedSurvey);
     }
-  }
+  };
 
   const handleChangeForm = (index: number, newDescription: string) => {
     const updatedSurvey = {
@@ -60,44 +61,58 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
   };
 
   const handleChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    const found = bases.find((a) => a.name == e.target.value);
     const updatedSurvey = {
       ...survey,
-      base: e.target.value
-    }
+      base: found,
+    };
 
     if (updatedSurvey.id) {
       patchResearch(updatedSurvey.id, updatedSurvey);
     }
-  }
+  };
 
   const handleUpdateQuestion = () => {
     if (survey.id) patchResearch(survey.id, survey);
-  }
+  };
 
   const handleDisable = () => {
     const updatedSurvey = {
       ...survey,
-      status: ResearchStatusEnum.DISABLED
-    }
+      status: ResearchStatusEnum.DISABLED,
+    };
 
     if (updatedSurvey.id) {
       patchResearch(updatedSurvey.id, updatedSurvey);
       setSurvey(updatedSurvey);
     }
-  }
+  };
 
-  const handleTrigger = () => {
+  const handleTrigger = async () => {
     console.log("trigger the email");
     const updatedSurvey = {
       ...survey,
-      status: ResearchStatusEnum.ACTIVE
-    }
+      status: ResearchStatusEnum.ACTIVE,
+    };
 
-    if (updatedSurvey.id) {
-      patchResearch(updatedSurvey.id, updatedSurvey);
-      setSurvey(updatedSurvey);
+    const selectedBase = bases.filter((e) => e.id == survey.base.id);
+
+    console.log({ selectedBase, research, bases });
+
+    if (updatedSurvey.id && selectedBase[0]) {
+      const emails = await getCostumerBase(selectedBase[0].id);
+      if (!!emails.length) {
+        patchResearch(updatedSurvey.id, updatedSurvey);
+
+        sendEmails(
+          updatedSurvey.id,
+          emails.map((e) => e.email)
+        );
+
+        setSurvey(updatedSurvey);
+      }
     }
-  }
+  };
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -118,8 +133,16 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
     <div className="flex gap-10">
       <div className="w-[400px] flex flex-col gap-6 px-6">
         <div>
-          <p className={`text-lg font-semibold ${researchStatusColor(survey.status)}`}>{survey.status}</p>
-          <p className="text-insightfy-dark-gray">desde {format(survey.scheduledDate, "dd/mm/yyyy HH:mm")}</p>
+          <p
+            className={`text-lg font-semibold ${researchStatusColor(
+              survey.status
+            )}`}
+          >
+            {survey.status}
+          </p>
+          <p className="text-insightfy-dark-gray">
+            desde {format(survey.scheduledDate, "dd/mm/yyyy HH:mm")}
+          </p>
         </div>
 
         <span className="relative flex items-center">
@@ -130,7 +153,11 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
           <select
             onChange={handleChange}
             className="w-full h-12 indent-10 rounded-lg bg-insightfy-light-gray cursor-pointer outline-none appearance-none"
-            defaultValue={typeof research.base === "object" && research.base.id ? research.base.id : ""}
+            defaultValue={
+              typeof research.base === "object" && research.base.id
+                ? research.base.id
+                : ""
+            }
           >
             {bases.map((base) => (
               <option key={base.id} value={base.id}>
@@ -138,8 +165,6 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
               </option>
             ))}
           </select>
-
-
 
           <span className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none">
             <ChevronDown size={20} />
@@ -151,9 +176,20 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
 
         <div className="flex gap-4 h-12 px-2 text-white font-semibold">
           {survey.status !== ResearchStatusEnum.ACTIVE && (
-            <button onClick={handleTrigger} className="w-full bg-insightfy-blue rounded-lg">Disparar</button>
+            <button
+              onClick={handleTrigger}
+              className="w-full bg-insightfy-blue rounded-lg"
+            >
+              Disparar
+            </button>
           )}
-          <button onClick={handleDisable} className="w-full rounded-lg" style={{ backgroundColor: "#AE0101" }} >Desativar</button>
+          <button
+            onClick={handleDisable}
+            className="w-full rounded-lg"
+            style={{ backgroundColor: "#AE0101" }}
+          >
+            Desativar
+          </button>
         </div>
       </div>
 
@@ -174,7 +210,9 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
             isActive={survey.status === ResearchStatusEnum.ACTIVE}
             key={index}
             updateQuestion={handleUpdateQuestion}
-            changeForm={(newDescription: string) => handleChangeForm(index, newDescription)}
+            changeForm={(newDescription: string) =>
+              handleChangeForm(index, newDescription)
+            }
             {...f}
           />
         ))}

@@ -8,26 +8,26 @@ export interface IForm {
 }
 
 export enum FormTypes {
-    GRADE = "1",
-    TEXT_BOXES = "2",
-    ORDERED_TEXT_BOXES = "3",
-    TEXT = "4",
-    CHECKBOX = "5"
-}  
+  GRADE = "1",
+  TEXT_BOXES = "2",
+  ORDERED_TEXT_BOXES = "3",
+  TEXT = "4",
+  CHECKBOX = "5",
+}
 
 export interface IResearch {
-    id?: string;
-    title: string;
-    app: boolean;
-    email: boolean;
-    sms: boolean;
-    whatsapp: boolean;
-    company: string;
-    status: ResearchStatusEnum;
-    scheduledDate: Date;
-    endDate?: Date;
-    form: IForm[];
-    base: IImports | string;
+  id?: string;
+  title: string;
+  app: boolean;
+  email: boolean;
+  sms: boolean;
+  whatsapp: boolean;
+  company: string;
+  status: ResearchStatusEnum;
+  scheduledDate: Date;
+  endDate?: Date;
+  form: IForm[];
+  base: IImports;
 }
 
 export interface IResponseSurvey {

@@ -40,7 +40,9 @@ function ResponseGenericAnalytics({
         <div className="w-52 h-44 flex justify-center flex-col justify-center gap-4 text-center border border-insightfy-light-gray rounded-lg p-4">
           <p className="text-lg font-medium">Total de tópicos</p>
           <p className="text-3xl font-semibold">
-            {summary.negativeTopicsCount + summary.positiveTopicsCount}
+            {summary.negativeTopicsCount &&
+              summary.positiveTopicsCount &&
+              summary.negativeTopicsCount + summary.positiveTopicsCount}
           </p>
         </div>
       </section>

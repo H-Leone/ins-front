@@ -20,8 +20,11 @@ interface CreateFormPageProps {
   };
 }
 
-async function CreateFormPage({ params: { research }, searchParams: { tab, search, pagination, topic } }: CreateFormPageProps) {
-  const pesquisa: IResearch = await getSurvey(research) ?? {
+async function CreateFormPage({
+  params: { research },
+  searchParams: { tab, search, pagination, topic },
+}: CreateFormPageProps) {
+  const pesquisa: IResearch = (await getSurvey(research)) ?? {
     title: "",
     app: false,
     email: false,
@@ -31,26 +34,49 @@ async function CreateFormPage({ params: { research }, searchParams: { tab, searc
     status: ResearchStatusEnum.DISABLED,
     scheduledDate: new Date().toISOString(),
     form: [],
+    // id: research,
   };
   const bases = await getBases();
   const tabs = [
-    { content: <CreateResearchPage bases={bases} research={pesquisa} />, name: "Criação de formulário", path: "criacao" },
-    { content: <ResearchAnswers search={search} page={Number(pagination) || 1} research={research} />, name: "Respostas gerais", path: "respostas"},
-    { content: <ResearchAnalytics researchId={research} search={search} topic={topic} />, name: "Análise de respostas", path: "analise"},
+    {
+      content: <CreateResearchPage bases={bases} research={pesquisa} />,
+      name: "Criação de formulário",
+      path: "criacao",
+    },
+    {
+      content: (
+        <ResearchAnswers
+          search={search}
+          page={Number(pagination) || 1}
+          research={research}
+        />
+      ),
+      name: "Respostas gerais",
+      path: "respostas",
+    },
+    {
+      content: (
+        <ResearchAnalytics
+          researchId={research}
+          search={search}
+          topic={topic}
+        />
+      ),
+      name: "Análise de respostas",
+      path: "analise",
+    },
   ];
 
   if (!tab) {
-    redirect(`/formularios/config${research ? `/${research}` : ''}?tab=criacao`);
-  }  
+    redirect(
+      `/formularios/config${research ? `/${research}` : ""}?tab=criacao`
+    );
+  }
 
   return (
     <div className="m-auto w-3/4 flex-col gap-4 flex pb-6">
       <div className="w-full flex justify-between items-center">
-        <InsightfyTabs
-          research={research}
-          currentTab={tab}
-          tabs={tabs}
-        />
+        <InsightfyTabs research={research} currentTab={tab} tabs={tabs} />
       </div>
     </div>
   );

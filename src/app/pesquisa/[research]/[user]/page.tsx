@@ -84,9 +84,11 @@ function ResearchPage({ params: { user, research } }: ResearchPageProps) {
         survey_answers: answers,
       };
       const createSurveyResponse = async () => {
-        const resp = await createSurveyResponseAsClient(survey.id, data);
-        if (resp) {
-          // window.location.href = "/";
+        if (survey.id) {
+          const resp = await createSurveyResponseAsClient(survey.id, data);
+          if (resp) {
+            window.location.href = "/";
+          }
         }
       };
       createSurveyResponse();
