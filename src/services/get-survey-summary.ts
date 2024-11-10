@@ -10,5 +10,5 @@ export async function getSurveySummary(id: string): Promise<ISurveySummary> {
         },
         method: "POST"
     })
-        .then(data => data.json());
+        .then(data => !data.ok ? null : data.json());
 }

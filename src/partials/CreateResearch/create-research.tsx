@@ -61,10 +61,11 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
   };
 
   const handleChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
-    const found = bases.find((a) => a.name == e.target.value);
+    const base = e.target.value;
+
     const updatedSurvey = {
       ...survey,
-      base: found,
+      base,
     };
 
     if (updatedSurvey.id) {
@@ -89,18 +90,15 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
   };
 
   const handleTrigger = async () => {
-    console.log("trigger the email");
     const updatedSurvey = {
       ...survey,
       status: ResearchStatusEnum.ACTIVE,
     };
 
-    const selectedBase = bases.filter((e) => e.id == survey.base.id);
-
-    console.log({ selectedBase, research, bases });
-
-    if (updatedSurvey.id && selectedBase[0]) {
-      const emails = await getCostumerBase(selectedBase[0].id);
+    const selectedBase = bases.find((e) => typeof survey.base === "object" && "name" in survey.base && e.id == survey.base["id"]);
+    
+    if (updatedSurvey.id && selectedBase) {
+      const emails = await getCostumerBase(selectedBase.id);
       if (!!emails.length) {
         patchResearch(updatedSurvey.id, updatedSurvey);
 
@@ -154,8 +152,8 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
             onChange={handleChange}
             className="w-full h-12 indent-10 rounded-lg bg-insightfy-light-gray cursor-pointer outline-none appearance-none"
             defaultValue={
-              typeof research.base === "object" && research.base.id
-                ? research.base.id
+              typeof survey.base === "object" && "id" in survey.base
+                ? survey.base.id
                 : ""
             }
           >
@@ -164,6 +162,7 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
                 {base.name || "All"}
               </option>
             ))}
+
           </select>
 
           <span className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none">

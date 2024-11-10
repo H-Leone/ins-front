@@ -24,10 +24,10 @@ export interface IResearch {
   whatsapp: boolean;
   company: string;
   status: ResearchStatusEnum;
-  scheduledDate: Date;
+  scheduledDate: string;
   endDate?: Date;
   form: IForm[];
-  base: IImports;
+  base: IImports | string;
 }
 
 export interface IResponseSurvey {

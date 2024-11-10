@@ -1,3 +1,4 @@
+import CreateResearchButton from "@/components/CreateResearchButton/create-research-button";
 import InsightfyButton from "@/components/InsightfyButton/insightfy-button";
 import ResearchCard from "@/components/ResearchCard/research-card";
 import SearchBar from "@/components/SearchBar/search-bar";
@@ -32,16 +33,7 @@ async function FormsPage({ searchParams: { search, status } }: IFormsPageProps) 
               { label: "", value: "All" },
               ...Object.entries(ResearchStatusEnum).map(([key, value]) => ({ label: key, value }))
           ]} status={status} />
-          <Link href="/formularios/config">
-            <InsightfyButton
-              width="145"
-              disabled={false}
-              type="button"
-              text="Nova Pesquisa"
-              variant="contained"
-              icon={<PlusIcon className="text-white w-6 h-6" size={15} />}
-            />
-          </Link>
+          <CreateResearchButton />
         </div>
 
         <div className="mt-8 flex-col gap-4 flex py-4">

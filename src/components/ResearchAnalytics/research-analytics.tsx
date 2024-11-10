@@ -68,7 +68,7 @@ function ResearchAnalytics({
     <Image src={Loading.src} alt="Loading GIF" width={100} height={100} />
   ) : (
     <div className="flex gap-12">
-      <aside className="w-1/2 flex flex-col gap-4">
+      <aside className="min-w-[300px] max-w-[300px] flex flex-col gap-4">
         <div className="flex justify-between items-center gap-6 mb-2">
           <SearchBar />
 

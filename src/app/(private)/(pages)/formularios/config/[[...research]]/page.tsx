@@ -24,18 +24,7 @@ async function CreateFormPage({
   params: { research },
   searchParams: { tab, search, pagination, topic },
 }: CreateFormPageProps) {
-  const pesquisa: IResearch = (await getSurvey(research)) ?? {
-    title: "",
-    app: false,
-    email: false,
-    sms: false,
-    whatsapp: false,
-    company: "",
-    status: ResearchStatusEnum.DISABLED,
-    scheduledDate: new Date().toISOString(),
-    form: [],
-    // id: research,
-  };
+  const pesquisa: IResearch = await getSurvey(research);
   const bases = await getBases();
   const tabs = [
     {

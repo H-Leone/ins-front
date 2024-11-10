@@ -33,7 +33,7 @@ function SessionForm({ type }: SessionFormProps) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-10">
+        <form onSubmit={handleSubmit} className="w-80 flex flex-col gap-10">
             <section className="flex flex-col gap-4">
                 {fields.map((item) => (
                     <div key={item} className="flex flex-col gap-2">
