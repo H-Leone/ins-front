@@ -1,73 +1,113 @@
-import InsightfyButton from "../InsightfyButton/insightfy-button";
+"use client";
 import SearchBar from "../SearchBar/search-bar";
 import ResearchTopicCard from "../ResearchTopicCard/research-topic-card";
 import ResponseGenericAnalytics from "../ResponseGenericAnalytics/response-generic-analytics";
 import TopicAnalytics from "../TopicAnalytics/topic-analytics";
 import { getTopics } from "@/services/get-topics";
 import { getSurveySummary } from "@/services/get-survey-summary";
+import { useEffect, useState } from "react";
+import { ITopic } from "@/types/topic";
+import { ISurveySummary } from "@/types/survey-summary";
+import Loading from "../../../public/loading.gif";
+import Image from "next/image";
 
 interface IResearchAnalyticsProps {
-    researchId: string;
-    search: string;
-    topic: string;
+  researchId: string;
+  search: string;
+  topic: string;
 }
 
-async function ResearchAnalytics({ researchId, search, topic }: IResearchAnalyticsProps) {
-    const topics = await getTopics(researchId);
-    const selectedTopic = topics
-        .find(el => el.id === topic);
-    const filteredTopics = topics
-        .filter(el => {
-            const regex = new RegExp(search, 'i');
-            return regex.test(el.name);
-        });
-    const surveySummary = await getSurveySummary(researchId);
+function ResearchAnalytics({
+  researchId,
+  search,
+  topic,
+}: IResearchAnalyticsProps) {
+  const [isLoading, setLoading] = useState(true);
+  const [topics, setTopics] = useState<ITopic[]>([]);
+  const [clicked, setClicked] = useState(0);
+  const [summary, setSummary] = useState<ISurveySummary>();
 
-    return (
-        <div className="flex gap-12">
+  useEffect(() => {
+    const handleGetTopics = async () => {
+      setLoading(true);
 
-            <aside className="w-1/2 flex flex-col gap-4">
-                <div className="flex justify-between items-center gap-6 mb-2">
-                    <SearchBar />
+      const newTops = await getTopics(researchId);
+      if (newTops) setTopics(newTops);
+      setLoading(false);
+    };
 
-                    <InsightfyButton 
-                        text="Novo tópico"
-                        variant="contained"
-                        type="button"
-                        width="180px"
-                        modalToOpen="topic"
-                        additionalData={{
-                            topic: selectedTopic,
-                            survey: researchId
-                        }}
-                        disabled={false}
-                    />
-                </div>
+    const handleGetSummary = async () => {
+      setLoading(true);
 
-                {/* <span className="flex gap-2 border border-insightfy-blue p-3 rounded-lg">
-                    <ChartNoAxesCombined size={25} />
+      const surveySummary = await getSurveySummary(researchId);
+      if (surveySummary) setSummary(surveySummary);
+      setLoading(false);
+    };
+    handleGetSummary();
+    handleGetTopics();
+  }, []);
 
-                    <p className="uppercase">Relatório</p>
-                </span> */}
+  useEffect(() => {
+    const handleGetSummary = async () => {
+      setLoading(true);
 
-                <ResearchTopicCard />
+      const surveySummary = await getSurveySummary(researchId);
+      if (surveySummary) setSummary(surveySummary);
+      setLoading(false);
+    };
+    handleGetSummary();
+  }, [clicked]);
 
-                <p className="flex text-insightfy-dark-gray font-semibold text-lg">Tópicos</p>
+  const selectedTopic = topics.find((el) => el.id === topic);
+  const filteredTopics = topics.filter((el) => {
+    const regex = new RegExp(search, "i");
+    return regex.test(el.name);
+  });
 
-                <div className="flex flex-col gap-4">
+  return isLoading ? (
+    <Image src={Loading.src} alt="Loading GIF" width={100} height={100} />
+  ) : (
+    <div className="flex gap-12">
+      <aside className="w-1/2 flex flex-col gap-4">
+        <div className="flex justify-between items-center gap-6 mb-2">
+          <SearchBar />
 
-                    {filteredTopics.map((topic, index) => (
-                        <ResearchTopicCard topic={topic} key={index} />
-                    ))}
-                    
-                </div>
-            </aside>
-
-            {!!selectedTopic ? 
-                <TopicAnalytics {...selectedTopic} /> : 
-                <ResponseGenericAnalytics summary={surveySummary} />}
+          {/* <InsightfyButton
+            text="Novo tópico"
+            variant="contained"
+            type="button"
+            width="180px"
+            modalToOpen="topic"
+            additionalData={{
+              topic: selectedTopic,
+              survey: researchId,
+            }}
+            disabled={false}
+          /> */}
         </div>
-    );
+
+        <ResearchTopicCard onClick={() => setClicked((curr) => curr + 1)} />
+
+        <p className="flex text-insightfy-dark-gray font-semibold text-lg">
+          Tópicos
+        </p>
+
+        <div className="flex flex-col gap-4">
+          {filteredTopics.map((topic, index) => (
+            <ResearchTopicCard topic={topic} key={index} onClick={() => {}} />
+          ))}
+        </div>
+      </aside>
+
+      {!!selectedTopic ? (
+        <TopicAnalytics {...selectedTopic} loading={isLoading} />
+      ) : (
+        summary && (
+          <ResponseGenericAnalytics summary={summary} loading={isLoading} />
+        )
+      )}
+    </div>
+  );
 }
 
 export default ResearchAnalytics;

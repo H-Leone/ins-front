@@ -1,9 +1,19 @@
+"use client";
 import Navbar from "@/components/navbar";
 import Graph from "../../public/Graph.svg";
 import BusinessCarousel from "@/components/business-carousel";
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { useEffect } from "react";
+import { setToken } from "@/actions";
 
 function Home() {
+  useEffect(() => {
+    const token = async () => {
+      await setToken();
+    };
+    token();
+  }, []);
   return (
     <div className="flex flex-col gap-12 py-[110px]">
       <Navbar />
