@@ -3,13 +3,13 @@
 import { Circle, CircleDot } from "lucide-react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
-function CommunicationMethods() {
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-    const { replace } = useRouter();
+interface CommunicationMethodsProps {
+    change: (method: string) => void;
+    email: boolean;
+    whatsapp: boolean;
+}
 
-    const whatsapp = searchParams.get("whatsapp");
-    const email = searchParams.get("email");
+function CommunicationMethods({ change, email, whatsapp }: CommunicationMethodsProps) {
     const communication = { 
         "WhatsApp": whatsapp, 
         "Email": email
@@ -17,16 +17,8 @@ function CommunicationMethods() {
 
     const handleSelect = (key: keyof typeof communication) => () => {
         const k = key.toLowerCase();
-        const params = new URLSearchParams(searchParams);
-        const value = communication[key];
-    
-        if (value) {
-            params.delete(k);
-        } else {
-            params.set(k, "true");
-        }
-    
-        replace(`${pathname}?${params.toString()}`);
+        
+        change(k);
     }    
 
     return (

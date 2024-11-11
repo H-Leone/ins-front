@@ -1,4 +1,8 @@
-function ResearchRating() {
+interface ResearchRatingProps {
+  responses: number[];
+}
+
+function ResearchRating({ responses }: ResearchRatingProps) {
     const colors = {
         0: "bg-[#B72224]",
         1: "bg-[#D52029]",
@@ -13,16 +17,16 @@ function ResearchRating() {
         default: "bg-[#AEC93C]"
     };
 
-    return (
-        <div className="flex flex-col gap-6">
-            <span className="w-full flex justify-between text-xs font-medium">
-              <p>NOT AT ALL LIKELY</p>
-              <p>EXTREMELY LIKELY</p>
-            </span>
+  return (
+    <div className="flex flex-col gap-6">
+      <span className="w-full flex justify-between text-xs font-medium">
+        <p>NOT AT ALL LIKELY</p>
+        <p>EXTREMELY LIKELY</p>
+      </span>
 
             <div className="flex justify-evenly">
-              {[...Array(10).keys()].map((el) => (
-                <div key={el} className={`${colors[el as keyof typeof colors] || colors.default} w-12 h-12 flex justify-center items-center text-white text-xl font-bold rounded`}>
+              {responses.map((el, index) => (
+                <div key={el} className={`${colors[index as keyof typeof colors] || colors.default} w-12 h-12 flex justify-center items-center text-white text-xl font-bold rounded`}>
                     {el}
                 </div>
               ))}

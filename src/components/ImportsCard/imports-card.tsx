@@ -1,18 +1,14 @@
 "use client";
 
 import { useModal } from "@/store/use-modal";
+import { IImports } from "@/types/imports";
 import { Database } from "lucide-react";
 
-interface Props {
-  name: string;
-  size: string;
-}
-
-function ImportsCard({ name, size }: Props) {
+function ImportsCard({ id, name, size }: IImports) {
   const { onOpen } = useModal();
 
   const handleOpenDatabaseModal = () => {
-    onOpen("database");
+    onOpen("database", { base: id });
   }
 
   return (

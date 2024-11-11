@@ -1,12 +1,26 @@
 "use client";
 
+import { createBase } from "@/services/create-base";
 import { useModal } from "@/store/use-modal";
+import { ChangeEventHandler, useState } from "react";
 
 function CreateBaseModal() {
-    const { type, onClose } = useModal();
+    const [name, setName] = useState("");
+    const { type, onClose, additionalData } = useModal();
 
     const handleClose = () => {
         onClose();
+    }
+
+    const handleChangeName: ChangeEventHandler<HTMLInputElement> = (e) => {
+        setName(e.target.value);
+    }
+    
+    const handleCreateBase = () => {
+        if(name && additionalData?.file) {
+            createBase(additionalData.file, name);
+            onClose();
+        }
     }
 
     if(type !== "create-base") return null;
@@ -16,12 +30,13 @@ function CreateBaseModal() {
             <p className="text-3xl text-insightfy-blue font-semibold">Crie uma Base</p>
 
             <div className="flex flex-col gap-2">
-                <input placeholder="Nome..." className="w-80 h-14 p-4 outline-none border-2 border-insightfy-gray rounded-md text-lg" type="text" />
-                <p className="text-insightfy-gray text-[15px] font-medium">Arquivo.csv 20kb</p>
+                <input value={name} onChange={handleChangeName} placeholder="Nome..." className="w-80 h-14 p-4 outline-none border-2 border-insightfy-gray rounded-md text-lg" type="text" />
+                {/* @ts-ignore */}
+                <p className="text-insightfy-gray text-[15px] font-medium">{additionalData?.file["name"]} {additionalData?.file["size"]}</p>
             </div>
 
             <div className="w-full h-12 flex gap-6 text-white font-semibold text-xl">
-                <button className="hover:brightness-125 duration-200 w-1/2 h-full bg-insightfy-gradient rounded-md">Criar</button>
+                <button onClick={handleCreateBase} className="hover:brightness-125 duration-200 w-1/2 h-full bg-insightfy-gradient rounded-md">Criar</button>
                 <button className="hover:brightness-125 duration-200 w-1/2 h-full bg-insightfy-border rounded-md" onClick={handleClose}>Cancelar</button>
             </div>
         </div>

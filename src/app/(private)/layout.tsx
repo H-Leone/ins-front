@@ -1,17 +1,25 @@
 import Header from "@/components/header";
+import { getUser } from "@/services/get-user";
+import { redirect } from "next/navigation";
 
 interface HeaderLayoutProps {
   children: React.ReactNode;
 }
 
-function HeaderLayout({ children }: HeaderLayoutProps) {
+async function HeaderLayout({ children }: HeaderLayoutProps) {
+  const user = await getUser();
+
+  console.log(user);
+  if(!user) {
+    redirect("/");
+  }
+
   return (
-    <div>
+    <>
       <Header />
-      <div className="py-[110px]">
-        {children}
-      </div>
-    </div>
+
+      <div className="mt-[110px]">{children}</div>
+    </>
   );
 }
 

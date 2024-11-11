@@ -1,29 +1,51 @@
 "use client";
 
-import { IResearchTopic } from "@/types/research-topic";
+import { ITopic } from "@/types/topic";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { MouseEventHandler } from "react";
 
-function ResearchTopicCard({ id, name, answers }: IResearchTopic) {
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const { replace } = useRouter();
+function ResearchTopicCard({
+  topic,
+  onClick,
+}: {
+  topic?: ITopic;
+  onClick: any;
+}) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
 
-    const handleClick: MouseEventHandler<HTMLInputElement> = (e) => {
-        const params = new URLSearchParams(searchParams);
+  const handleClick: MouseEventHandler<HTMLInputElement> = (e) => {
+    onClick();
+    const params = new URLSearchParams(searchParams);
 
-        params.set("topic", id.toString());
-        
-        replace(`${pathname}?${params.toString()}`);
+    if (topic) {
+      params.set("topic", topic.id.toString());
+
+      replace(`${pathname}?${params.toString()}`);
+    } else {
+      params.delete("topic");
+
+      replace(`${pathname}?${params.toString()}`);
     }
+  };
 
-    return (
-        <div onClick={handleClick} className="w-full flex justify-between items-center border border-insightfy-dark-gray px-5 py-4 rounded-lg cursor-pointer hover:bg-insightfy-light-gray duration-200">
-            <p>{name}</p>
-
-            <p>{answers}</p>
-        </div>
-    );
+  return (
+    <div
+      onClick={handleClick}
+      className="w-full flex justify-between items-center border border-insightfy-dark-gray px-5 py-4 rounded-lg cursor-pointer hover:bg-insightfy-light-gray duration-200"
+    >
+      {topic ? (
+        <>
+          <p>{topic?.name}</p>
+          {/* 
+          <p>144</p> */}
+        </>
+      ) : (
+        <p>RELATÓRIO GERAL</p>
+      )}
+    </div>
+  );
 }
 
 export default ResearchTopicCard;

@@ -1,75 +1,231 @@
+"use client";
+
 import CommunicationMethods from "@/components/CommunicationMethods/communication-methods";
 import InsightfyButton from "@/components/InsightfyButton/insightfy-button";
-import { IResearchCardProps } from "@/components/ResearchCard/research-card";
-import ResearchRating from "@/components/ResearchRating/research-rating";
+import ResearchForm from "@/components/ResearchForm/research-form";
+import { getBases } from "@/services/get-bases";
+import { getCostumerBase } from "@/services/get-costumers-base";
+import { patchResearch } from "@/services/patch-research";
+import { sendEmails } from "@/services/send-email";
+import { useModal } from "@/store/use-modal";
+import { IImports } from "@/types/imports";
+import { IResearch } from "@/types/research";
 import { ResearchStatusEnum } from "@/types/research-status.enum";
 import { researchStatusColor } from "@/utils/research-status-color";
 import { format } from "date-fns";
+import { ChevronDown, Database } from "lucide-react";
+import { ChangeEvent, ChangeEventHandler, useState } from "react";
 
-function CreateResearchPage() {
-  const research: IResearchCardProps = {
-    id: 1,
-    title: "Pesquisa NPS 01",
-    answers: 150,
-    startDate: new Date(),
-    status: ResearchStatusEnum.active,
+interface CreateResearchPageProps {
+  research: IResearch;
+  bases: IImports[];
+}
+
+function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
+  const [survey, setSurvey] = useState<IResearch>(research);
+  const [title, setTitle] = useState<string>(research.title);
+  const { onOpen } = useModal();
+
+  const handleToggleCommunication = (method: string) => {
+    const updatedSurvey = {
+      ...survey,
+      [method]: !survey[method as keyof IResearch],
+    };
+
+    if (updatedSurvey.id) {
+      setSurvey(updatedSurvey);
+      patchResearch(updatedSurvey.id, updatedSurvey);
+    }
+  };
+
+  const handleDeleteQuestion = (index: number) => {
+    const updatedSurvey = {
+      ...survey,
+      form: survey.form.filter((f, i) => index !== i),
+    };
+
+    if (updatedSurvey.id) {
+      patchResearch(updatedSurvey.id, updatedSurvey);
+      setSurvey(updatedSurvey);
+    }
+  };
+
+  const handleChangeForm = (index: number, newDescription: string) => {
+    const updatedSurvey = {
+      ...survey,
+      form: survey.form.map((f, i) =>
+        i === index ? { ...f, description: newDescription } : f
+      ),
+    };
+    setSurvey(updatedSurvey);
+  };
+
+  const handleChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    const base = e.target.value;
+
+    const updatedSurvey = {
+      ...survey,
+      base,
+    };
+
+    if (updatedSurvey.id) {
+      patchResearch(updatedSurvey.id, updatedSurvey);
+    }
+  };
+
+  const handleUpdateQuestion = () => {
+    if (survey.id) patchResearch(survey.id, survey);
+  };
+
+  const handleDisable = () => {
+    const updatedSurvey = {
+      ...survey,
+      status: ResearchStatusEnum.DISABLED,
+    };
+
+    if (updatedSurvey.id) {
+      patchResearch(updatedSurvey.id, updatedSurvey);
+      setSurvey(updatedSurvey);
+    }
+  };
+
+  const handleTrigger = async () => {
+    const updatedSurvey = {
+      ...survey,
+      status: ResearchStatusEnum.ACTIVE,
+    };
+
+    const selectedBase = bases.find((e) => typeof survey.base === "object" && "name" in survey.base && e.id == survey.base["id"]);
+    
+    if (updatedSurvey.id && selectedBase) {
+      const emails = await getCostumerBase(selectedBase.id);
+      if (!!emails.length) {
+        patchResearch(updatedSurvey.id, updatedSurvey);
+
+        sendEmails(
+          updatedSurvey.id,
+          emails.map((e) => e.email)
+        );
+
+        setSurvey(updatedSurvey);
+      }
+    }
+  };
+
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleTitleUpdate = () => {
+    if (survey.id && title !== survey.title) {
+      const updatedSurvey = { ...survey, title };
+
+      if (updatedSurvey.id) {
+        patchResearch(updatedSurvey.id, updatedSurvey);
+        setSurvey(updatedSurvey);
+      }
+    }
   };
 
   return (
     <div className="flex gap-10">
       <div className="w-[400px] flex flex-col gap-6 px-6">
         <div>
-          <p className={`text-lg font-semibold ${researchStatusColor(research.status)}`}>Ativo</p>
-          <p className="text-insightfy-dark-gray">desde {format(research.startDate, "dd/mm/yyyy HH:mm")}</p>
+          <p
+            className={`text-lg font-semibold ${researchStatusColor(
+              survey.status
+            )}`}
+          >
+            {survey.status}
+          </p>
+          <p className="text-insightfy-dark-gray">
+            desde {format(survey.scheduledDate, "dd/mm/yyyy HH:mm")}
+          </p>
         </div>
 
-        <input type="text" className="h-12 border border-insightfy-gray rounded-lg outline-none px-3" />
+        <span className="relative flex items-center">
+          <span className="flex justify-center items-center absolute top-1/2 -translate-y-1/2 left-3">
+            <Database size={20} />
+          </span>
 
-        <CommunicationMethods />
+          <select
+            onChange={handleChange}
+            className="w-full h-12 indent-10 rounded-lg bg-insightfy-light-gray cursor-pointer outline-none appearance-none"
+            defaultValue={
+              typeof survey.base === "object" && "id" in survey.base
+                ? survey.base.id
+                : ""
+            }
+          >
+            {bases.map((base) => (
+              <option key={base.id} value={base.id}>
+                {base.name || "All"}
+              </option>
+            ))}
+
+          </select>
+
+          <span className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none">
+            <ChevronDown size={20} />
+          </span>
+        </span>
+        {/* <input type="text" className="h-12 border border-insightfy-gray rounded-lg outline-none px-3" /> */}
+
+        <CommunicationMethods {...survey} change={handleToggleCommunication} />
 
         <div className="flex gap-4 h-12 px-2 text-white font-semibold">
-          <button className="w-full bg-insightfy-blue rounded-lg">Salvar</button>
-          <button className="w-full rounded-lg" style={{ backgroundColor: "#AE0101" }} >Desativar</button>
+          {survey.status !== ResearchStatusEnum.ACTIVE && (
+            <button
+              onClick={handleTrigger}
+              className="w-full bg-insightfy-blue rounded-lg"
+            >
+              Disparar
+            </button>
+          )}
+          <button
+            onClick={handleDisable}
+            className="w-full rounded-lg"
+            style={{ backgroundColor: "#AE0101" }}
+          >
+            Desativar
+          </button>
         </div>
       </div>
 
       <div className="w-full flex flex-col gap-8 shadow-3xl">
-
         <section className="w-full flex justify-center flex-col px-8 py-8 rounded-lg border-2 border-insightfy-light-gray">
-          <input 
+          <input
             type="text"
             className="w-full text-3xl border-b-2 px-4 py-3 outline-none font-semibold"
-            defaultValue="Pesquisa NPS"
+            value={title}
+            onChange={handleTitleChange}
+            onBlur={handleTitleUpdate}
           />
         </section>
 
-        <section className="w-full flex flex-col gap-8 px-8 py-8 border-2 border-insightfy-light-gray rounded-lg">
-          <p className="text-sm font-medium text-insightfy-dark-gray">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five.</p>
-
-          <textarea className="resize-none w-full h-44 bg-gray-500 outline-none text-sm p-4 rounded-lg" placeholder="Hint text...">
-
-          </textarea>
-
-        </section>
-
-        
-        <section className="w-full flex flex-col gap-8 px-8 py-8 border-2 border-insightfy-light-gray rounded-lg">
-          <p className="text-sm text-center font-medium text-insightfy-dark-gray">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-
-          <ResearchRating />
-
-        </section>
+        {survey.form.map((f, index) => (
+          <ResearchForm
+            deleteQuestion={() => handleDeleteQuestion(index)}
+            isActive={survey.status === ResearchStatusEnum.ACTIVE}
+            key={index}
+            updateQuestion={handleUpdateQuestion}
+            changeForm={(newDescription: string) =>
+              handleChangeForm(index, newDescription)
+            }
+            {...f}
+          />
+        ))}
 
         <div className="flex" style={{ justifyContent: "right" }}>
           <InsightfyButton
             type="button"
-            disabled={false}
+            click={() => onOpen("create-question", { research: survey })}
+            disabled={survey.status === ResearchStatusEnum.ACTIVE}
             text="Nova Pergunta"
             variant="contained"
             width="170px"
           />
         </div>
-
       </div>
     </div>
   );

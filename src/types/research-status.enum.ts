@@ -1,5 +1,5 @@
 export enum ResearchStatusEnum {
-    "active" = "Ativo",
-    "scheduled" = "Agendado",
-    "disabled" = "Inativo", 
+    ACTIVE = "ACTIVE",
+    SCHEDULED = "SCHEDULED",
+    DISABLED = "DISABLED"
 }
