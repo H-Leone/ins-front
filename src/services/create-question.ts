@@ -1,8 +1,8 @@
-import { ITopic } from "@/types/topic"
+import { IResearch } from "@/types/research"
 import { getApiUrl } from "@/utils/get-api-url"
 import { token } from "@/utils/get-token"
 
-export async function createQuestion(research: string, surveyType: string): Promise<ITopic> {
+export async function createQuestion(research: string, surveyType: string): Promise<IResearch> {
     return await fetch(getApiUrl(`surveys/question/${research}`), {
         headers: {
             "Authorization": await token()  ,

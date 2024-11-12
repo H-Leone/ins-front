@@ -1,6 +1,5 @@
 import Pagination from "@/components/Pagination/pagination";
 import SearchBar from "@/components/SearchBar/search-bar";
-import StatusFilter from "@/components/StatusFilter/status-filter";
 import { getResponses } from "@/services/get-responses";
 
 interface IResearchAnswersProps {
@@ -19,8 +18,15 @@ async function ResearchAnswers({ research, search, page }: IResearchAnswersProps
             return search ? values : true;
         });
 
+    const responsesPerPage = 10;
+    const totalPages = Math.ceil(responses.length / responsesPerPage);
+    const startIdx = (page - 1) * responsesPerPage;
+    const endIdx = page * responsesPerPage;
+
+    const currentPageResponses = responses.slice(startIdx, endIdx);
+
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-8">
             <div className="flex justify-between">
                 <SearchBar width={380} />
             </div>
@@ -35,13 +41,13 @@ async function ResearchAnswers({ research, search, page }: IResearchAnswersProps
                 </thead>
 
                 <tbody>
-                    {responses.map((el, index) => (
+                    {currentPageResponses.map((el, index) => (
                         <>
                             {el.surveyAnswers?.map((answer, i) => (
                                 <tr className="border border-gray-300 text-center font-medium h-14" key={index + i}>
-                                    <td>{el.user.name}</td>
-                                    <td>{el.email}</td>
-                                    <td>{answer.answer}</td>
+                                    <td className="truncate max-w-[150px] overflow-hidden text-ellipsis whitespace-nowrap" title={el.user.name}>{el.user.name}</td>
+                                    <td className="truncate max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap" title={el.email}>{el.email}</td>
+                                    <td className="truncate max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap" title={answer.answer}>{answer.answer}</td>
                                 </tr>
                             ))}
                         </>
@@ -49,7 +55,7 @@ async function ResearchAnswers({ research, search, page }: IResearchAnswersProps
                 </tbody>
             </table>
 
-            <Pagination page={page} />
+            <Pagination page={page} totalPages={totalPages} />
         </div>
     );
 }

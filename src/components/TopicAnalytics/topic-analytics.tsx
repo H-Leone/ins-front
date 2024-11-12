@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ChevronDown,
   ChevronsDown,
@@ -10,6 +12,8 @@ import { ITopic } from "@/types/topic";
 import { analyzeResponses } from "@/services/analyze-responses";
 import Loading from "../../../public/loading.gif";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { IAnalyzedResponse } from "@/types/analyzed-response";
 
 type FeedbackType =
   | "Bem Negativo"
@@ -18,7 +22,7 @@ type FeedbackType =
   | "Positivo"
   | "Bem Positivo";
 
-async function TopicAnalytics({
+function TopicAnalytics({
   id,
   name,
   description,
@@ -33,7 +37,18 @@ async function TopicAnalytics({
     "Bem Positivo": <ChevronsUp size={22.5} className="text-insightfy-green" />,
   };
 
-  const responses = await analyzeResponses(survey);
+  const [responses, setResponses] = useState<IAnalyzedResponse[]>([]);
+
+  useEffect(() => {
+    const fetchResponses = async () => {
+      const res = await analyzeResponses(id);
+      console.log(res);
+
+      setResponses(res);
+    }
+
+    fetchResponses();
+  }, []);
 
   return loading ? (
     <Image src={Loading.src} alt="Loading GIF" width={100} height={100} />
@@ -42,7 +57,7 @@ async function TopicAnalytics({
       <TopicHeader name={name} description={description} />
 
       <div className="flex justify-between">
-        <p>144 respostas</p>
+        <p>{responses.length} respostas</p>
 
         {Object.entries(topicFeedback).map(([feedback, icon]) => (
           <span className="flex items-center gap-2" key={feedback}>

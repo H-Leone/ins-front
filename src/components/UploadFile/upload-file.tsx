@@ -32,7 +32,7 @@ function UploadFile() {
                     Importar CSV
                 </h2>
 
-                <p className="text-[20px] text-insightfy-text">
+                <p className="md:text-[20px] text-[14px] text-insightfy-text">
                     Arraste aqui ou clique para upload
                 </p>
             </div>

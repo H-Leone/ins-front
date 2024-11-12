@@ -5,7 +5,6 @@ import ResearchAnswers from "@/partials/ResearchAnswers/research-answers";
 import { getBases } from "@/services/get-bases";
 import { getSurvey } from "@/services/get-survey";
 import { IResearch } from "@/types/research";
-import { ResearchStatusEnum } from "@/types/research-status.enum";
 import { redirect } from "next/navigation";
 
 interface CreateFormPageProps {

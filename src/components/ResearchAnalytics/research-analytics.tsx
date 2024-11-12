@@ -67,8 +67,8 @@ function ResearchAnalytics({
   return isLoading ? (
     <Image src={Loading.src} alt="Loading GIF" width={100} height={100} />
   ) : (
-    <div className="flex gap-12">
-      <aside className="min-w-[300px] max-w-[300px] flex flex-col gap-4">
+    <div className="flex flex-col lg:flex-row gap-12">
+      <aside className="lg:min-w-[300px] lg:max-w-[300px] w-full flex flex-col gap-4">
         <div className="flex justify-between items-center gap-6 mb-2">
           <SearchBar />
 
@@ -98,6 +98,8 @@ function ResearchAnalytics({
           ))}
         </div>
       </aside>
+
+      <hr className="block lg:hidden" />
 
       {!!selectedTopic ? (
         <TopicAnalytics {...selectedTopic} loading={isLoading} />

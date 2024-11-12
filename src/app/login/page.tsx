@@ -26,7 +26,7 @@ function LoginPage() {
         <SessionForm type="login" />
       </div>
 
-      <img className="h-full" src={LoginBackground.src} alt="Mountain" />
+      <img className="hidden lg:block h-full" src={LoginBackground.src} alt="Mountain" />
     </div>
   );
 }

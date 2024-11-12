@@ -36,7 +36,7 @@ async function FormsPage({ searchParams: { search, status } }: IFormsPageProps) 
           <CreateResearchButton />
         </div>
 
-        <div className="mt-8 flex-col gap-4 flex py-4">
+        <div className="mt-4 flex-col gap-4 flex pb-8">
           {!!researches.length
             ? researches.map((e, index) => <ResearchCard key={index} {...e} />)
             : <p className="m-8 text-center">Nada na lista...</p>}

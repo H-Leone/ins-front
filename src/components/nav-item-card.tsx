@@ -7,13 +7,14 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 interface Props {
+    path?: string;
     gradient?: boolean;
 }
 
-function NavItemCard({ gradient, name, subItems }: INavItem & Props) {
-    const ref = useRef<HTMLSpanElement>(null);
+function NavItemCard({ path, gradient, name, subItems }: INavItem & Props) {
+    const ref = useRef<HTMLDivElement>(null);
     const [isOpen, setIsOpen] = useState(false);
-    const url = normalizeString(name).toLowerCase();
+    const url = path ? path : normalizeString(name).toLowerCase();
 
     const handleClick: React.MouseEventHandler = (e) => {
         if (subItems) {
@@ -41,7 +42,7 @@ function NavItemCard({ gradient, name, subItems }: INavItem & Props) {
     }, []);
 
     return (
-        <span
+        <div
             ref={ref}
             className={`relative px-3 py-2 rounded ${gradient && "bg-insightfy-gradient text-white"} font-medium`}
         >
@@ -72,7 +73,7 @@ function NavItemCard({ gradient, name, subItems }: INavItem & Props) {
                 </nav>
             )}
 
-        </span>
+        </div>
     );
 }
 

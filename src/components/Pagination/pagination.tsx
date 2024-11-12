@@ -6,10 +6,10 @@ import { useState, MouseEventHandler, ChangeEvent, FormEvent, useRef, useEffect 
 
 interface IPaginationProps {
     page: number;
+    totalPages: number;
 }
 
-function Pagination({ page }: IPaginationProps) {
-    const maxPage = 10;
+function Pagination({ page, totalPages }: IPaginationProps) {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
@@ -31,16 +31,15 @@ function Pagination({ page }: IPaginationProps) {
     }, []);
 
     const buttonStyle = (pageNumber: number) =>
-        `flex justify-center items-center w-10 h-10 text-center ${
-            pageNumber === page
-                ? "text-insightfy-blue border-insightfy-blue"
-                : "text-black border-insightfy-light-gray"
+        `flex justify-center items-center w-10 h-10 text-center ${pageNumber === page
+            ? "text-insightfy-blue border-insightfy-blue"
+            : "text-black border-insightfy-light-gray"
         } rounded-md font-bold border disabled:bg-gray-300 disabled:border-0 disabled:text-insightfy-light-gray disabled:cursor-not-allowed`;
 
     const goToPage: MouseEventHandler = (event) => {
         const pageNumber = parseInt(event.currentTarget.getAttribute("data-page")!, 10);
 
-        if (isNaN(pageNumber) || pageNumber < 1 || pageNumber > maxPage) return;
+        if (isNaN(pageNumber) || pageNumber < 1 || pageNumber > totalPages) return;
 
         const params = new URLSearchParams(searchParams);
 
@@ -60,12 +59,18 @@ function Pagination({ page }: IPaginationProps) {
 
     const handleFormSubmit = (event: FormEvent) => {
         event.preventDefault();
-        
-        if (inputPage && !isNaN(inputPage) && inputPage >= 1 && inputPage <= maxPage) {
+
+        if (inputPage && !isNaN(inputPage) && inputPage >= 1 && inputPage <= totalPages) {
             goToPage({ currentTarget: { getAttribute: () => inputPage.toString() } } as any);
             setIsInputVisible(false);
         } else {
             alert("Invalid page number.");
+        }
+    };
+
+    const handleInputBlur = () => {
+        if (inputPage !== page) {
+            setIsInputVisible(false);
         }
     };
 
@@ -86,49 +91,59 @@ function Pagination({ page }: IPaginationProps) {
             >
                 1
             </button>
-            <button
-                className={buttonStyle(page === maxPage || page === maxPage - 1 || page === 1 ? 2 : page)}
-                onClick={goToPage}
-                data-page={page === maxPage || page === maxPage - 1 || page === 1 ? 2 : page}
-            >
-                {page === maxPage || page === maxPage - 1 || page === 1 ? 2 : page}
-            </button>
-            <button
-                className={buttonStyle(0)}
-                onClick={() => setIsInputVisible(true)}
-            >
-                {isInputVisible ? (
-                    <form onSubmit={handleFormSubmit} className="flex items-center space-x-2">
-                        <input
-                            type="number"
-                            min="1"
-                            max={maxPage}
-                            onChange={handleInputChange}
-                            className={buttonStyle(0)}
-                            autoFocus
-                        />
-                    </form>
-                ) : "..."}
-            </button>
-            <button
-                className={buttonStyle(maxPage - 1)}
-                onClick={goToPage}
-                data-page={maxPage - 1}
-            >
-                {maxPage - 1}
-            </button>
-            <button
-                className={buttonStyle(maxPage)}
-                onClick={goToPage}
-                data-page={maxPage}
-            >
-                {maxPage}
-            </button>
+            {totalPages > 2 && (
+                <button
+                    className={buttonStyle(page === totalPages || page === totalPages - 1 || page === 1 ? 2 : page)}
+                    onClick={goToPage}
+                    data-page={page === totalPages || page === totalPages - 1 || page === 1 ? 2 : page}
+                >
+                    {page === totalPages || page === totalPages - 1 || page === 1 ? 2 : page}
+                </button>
+            )}
+            {totalPages > 5 && (
+                <button
+                    className={buttonStyle(0)}
+                    onClick={() => setIsInputVisible(true)}
+                >
+                    {isInputVisible ? (
+                        <form onSubmit={handleFormSubmit} className="flex items-center space-x-2">
+                            <input
+                                type="number"
+                                min="1"
+                                max={totalPages}
+                                onChange={handleInputChange}
+                                value={inputPage === "" ? "" : inputPage}
+                                className={buttonStyle(0)}
+                                autoFocus
+                                onBlur={handleInputBlur}
+                            />
+                        </form>
+                    ) : "..."}
+                </button>
+            )}
+            {totalPages > 3 && (
+                <button
+                    className={buttonStyle(totalPages - 1)}
+                    onClick={goToPage}
+                    data-page={totalPages - 1}
+                >
+                    {totalPages - 1}
+                </button>
+            )}
+            {totalPages > 4 && (
+                <button
+                    className={buttonStyle(totalPages)}
+                    onClick={goToPage}
+                    data-page={totalPages}
+                >
+                    {totalPages}
+                </button>
+            )}
             <button
                 className={buttonStyle(page + 1)}
                 onClick={goToPage}
                 data-page={page + 1}
-                disabled={page === maxPage}
+                disabled={page === totalPages}
             >
                 <ChevronRight size={20} />
             </button>
