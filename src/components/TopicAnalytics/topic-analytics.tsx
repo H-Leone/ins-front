@@ -60,7 +60,7 @@ function TopicAnalytics({
         <p>{responses.length} respostas</p>
 
         {Object.entries(topicFeedback).map(([feedback, icon]) => (
-          <span className="flex items-center gap-2" key={feedback}>
+          <span className="items-center gap-2 lg:flex hidden" key={feedback}>
             {icon}
             <p className="text-sm">{feedback}</p>
           </span>

@@ -1,8 +1,10 @@
+import { getApiUrl } from "@/utils/get-api-url";
+
 export const createSurveyResponseAsClient = async (
   id: string,
   dataResponse: any
 ) => {
-  const data = await fetch(`http://localhost:8080/v1/responses`, {
+  const data = await fetch(getApiUrl(`responses`), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

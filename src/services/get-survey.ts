@@ -12,14 +12,14 @@ export async function getSurvey(id: string): Promise<IResearch> {
 }
 
 export const getSurveyAsClient = async (id: string) => {
-  const data = await fetch(`http://localhost:8080/v1/surveys/${id}`, {
+  const data = await fetch(getApiUrl(`surveys/${id}`), {
     next: { revalidate: 1 },
   }).then((data) => data.json());
   return data;
 };
 
 export const getResponseAsClient = async (id: string) => {
-  const data = await fetch(`http://localhost:8080/v1/responses/${id}/survey`, {
+  const data = await fetch(getApiUrl(`responses/${id}/survey`), {
     next: { revalidate: 1 },
   }).then((data) => data.json());
   return data;
