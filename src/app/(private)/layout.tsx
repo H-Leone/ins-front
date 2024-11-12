@@ -9,7 +9,6 @@ interface HeaderLayoutProps {
 async function HeaderLayout({ children }: HeaderLayoutProps) {
   const user = await getUser();
 
-  console.log(user);
   if(!user) {
     redirect("/");
   }

@@ -96,7 +96,7 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
     };
 
     const selectedBase = bases.find((e) => typeof survey.base === "object" && "name" in survey.base && e.id == survey.base["id"]);
-    
+
     if (updatedSurvey.id && selectedBase) {
       const emails = await getCostumerBase(selectedBase.id);
       if (!!emails.length) {
@@ -128,8 +128,8 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
   };
 
   return (
-    <div className="flex gap-10">
-      <div className="w-[400px] flex flex-col gap-6 px-6">
+    <div className="flex flex-col md:flex-row gap-10">
+      <div className="min-w-[300px] max-w-[300px] flex flex-col gap-6 px-6">
         <div>
           <p
             className={`text-lg font-semibold ${researchStatusColor(

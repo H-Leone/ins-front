@@ -12,7 +12,7 @@ function ImportsCard({ id, name, size }: IImports) {
   }
 
   return (
-    <div onClick={handleOpenDatabaseModal} className="flex items-center px-4 w-96 h-14 gap-2 rounded-md border-insightfy-border border cursor-pointer hover:bg-insightfy-gray/20 duration-300">
+    <div onClick={handleOpenDatabaseModal} className="flex items-center px-4 lg:w-96 md:w-56 w-48 h-14 gap-2 rounded-md border-insightfy-border border cursor-pointer hover:bg-insightfy-gray/20 duration-300">
       <Database size={17.5} />
       <div className="w-full flex justify-between items-center">
         <h2 className="text font-medium">{name}</h2>

@@ -2,11 +2,11 @@ import { ResearchStatusEnum } from "@/types/research-status.enum";
 
 export function getSufix(status: ResearchStatusEnum) {
     switch (status) {
-      case ResearchStatusEnum.active:
+      case ResearchStatusEnum.ACTIVE:
         return "às";
-      case ResearchStatusEnum.disabled:
+      case ResearchStatusEnum.DISABLED:
         return "desde";
-      case ResearchStatusEnum.scheduled:
+      case ResearchStatusEnum.SCHEDULED:
         return "para";
     }
   };

@@ -2,8 +2,13 @@
 
 import { useState } from "react";
 import InsightfyButton from "../InsightfyButton/insightfy-button";
+import { login } from "@/services/login";
+import { signUp } from "@/services/sign-up";
+import { ISessionRequest } from "@/types/session-request";
+import { setToken } from "@/actions";
+import { useRouter } from "next/navigation";
 
-interface LoginInfo {
+export interface LoginInfo {
     empresa?: string;
     email: string;
     senha: string;
@@ -14,6 +19,7 @@ interface SessionFormProps {
 }
 
 function SessionForm({ type }: SessionFormProps) {
+    const router = useRouter();
     const fields = type === "register" ? ["empresa", "email", "senha"] : ["email", "senha"];
     const [loginInfo, setLoginInfo] = useState<LoginInfo>({
         email: "",
@@ -28,8 +34,25 @@ function SessionForm({ type }: SessionFormProps) {
         });
     };
 
-    const handleSubmit: React.FormEventHandler = (e) => {
+    const handleSubmit: React.FormEventHandler = async (e) => {
         e.preventDefault();
+
+        const payload = {
+            email: loginInfo.email,
+            password: loginInfo.senha,
+            company: loginInfo.empresa,
+        } as ISessionRequest;
+
+        const token = await (
+            type === "login" ?
+                login(payload) :
+                signUp(payload)
+        ).then(data => data.access_token);
+
+        if(token) {
+            await setToken(token);
+            router.push("/home");
+        }
     }
 
     return (

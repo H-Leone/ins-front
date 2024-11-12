@@ -1,4 +1,5 @@
 import Link from "next/link";
+import TabCard from "../TabCard/tab-card";
 
 export interface IInsightfyTabsProps {
   name: string;
@@ -20,17 +21,11 @@ function InsightfyTabs({ research, currentTab, tabs }: IInsightfyTabs) {
       <div className="flex w-full py-4">
         <ul className="grid grid-cols-3 cursor-pointer w-full rounded-xl py-3">
           {tabs.map((tab, index) => (
-            <Link key={tab.name} href={`/formularios/config/${research}?tab=${tab.path}`}>
-              <li
-                key={index}
-                className={`w-full text-center px-4 py-3 font-semibold border-b-[3px] ${tab.path === currentTab
-                    ? "text-insightfy-blue border-insightfy-blue"
-                    : "text-insightfy-dark-gray border-insightfy-light-gray"
-                  } `}
-              >
-                {tab.name}
-              </li>
-            </Link>
+            <TabCard
+              currentTab={currentTab}
+              key={index}
+              {...tab}
+            />
           ))}
         </ul>
       </div>

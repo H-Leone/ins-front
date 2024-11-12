@@ -6,7 +6,7 @@ function RegisterPage() {
     return (
         <div className="flex justify-evenly items-center p-6">
             <img
-                className="h-full"
+                className="hidden lg:block h-full"
                 src={RegisterBackground.src} 
                 alt="Mountain"     
             />

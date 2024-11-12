@@ -6,10 +6,10 @@ import { useState, MouseEventHandler, ChangeEvent, FormEvent, useRef, useEffect 
 
 interface IPaginationProps {
     page: number;
+    totalPages: number;
 }
 
-function Pagination({ page }: IPaginationProps) {
-    const maxPage = 10;
+function Pagination({ page, totalPages }: IPaginationProps) {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
@@ -40,7 +40,7 @@ function Pagination({ page }: IPaginationProps) {
     const goToPage: MouseEventHandler = (event) => {
         const pageNumber = parseInt(event.currentTarget.getAttribute("data-page")!, 10);
 
-        if (isNaN(pageNumber) || pageNumber < 1 || pageNumber > maxPage) return;
+        if (isNaN(pageNumber) || pageNumber < 1 || pageNumber > totalPages) return;
 
         const params = new URLSearchParams(searchParams);
 
@@ -60,12 +60,18 @@ function Pagination({ page }: IPaginationProps) {
 
     const handleFormSubmit = (event: FormEvent) => {
         event.preventDefault();
-        
-        if (inputPage && !isNaN(inputPage) && inputPage >= 1 && inputPage <= maxPage) {
+
+        if (inputPage && !isNaN(inputPage) && inputPage >= 1 && inputPage <= totalPages) {
             goToPage({ currentTarget: { getAttribute: () => inputPage.toString() } } as any);
             setIsInputVisible(false);
         } else {
             alert("Invalid page number.");
+        }
+    };
+
+    const handleInputBlur = () => {
+        if (inputPage !== page) {
+            setIsInputVisible(false);
         }
     };
 
@@ -87,11 +93,11 @@ function Pagination({ page }: IPaginationProps) {
                 1
             </button>
             <button
-                className={buttonStyle(page === maxPage || page === maxPage - 1 || page === 1 ? 2 : page)}
+                className={buttonStyle(page === totalPages || page === totalPages - 1 || page === 1 ? 2 : page)}
                 onClick={goToPage}
-                data-page={page === maxPage || page === maxPage - 1 || page === 1 ? 2 : page}
+                data-page={page === totalPages || page === totalPages - 1 || page === 1 ? 2 : page}
             >
-                {page === maxPage || page === maxPage - 1 || page === 1 ? 2 : page}
+                {page === totalPages || page === totalPages - 1 || page === 1 ? 2 : page}
             </button>
             <button
                 className={buttonStyle(0)}
@@ -102,33 +108,35 @@ function Pagination({ page }: IPaginationProps) {
                         <input
                             type="number"
                             min="1"
-                            max={maxPage}
+                            max={totalPages}
                             onChange={handleInputChange}
+                            value={inputPage === "" ? "" : inputPage}
                             className={buttonStyle(0)}
                             autoFocus
+                            onBlur={handleInputBlur} // Hide the input on blur
                         />
                     </form>
                 ) : "..."}
             </button>
             <button
-                className={buttonStyle(maxPage - 1)}
+                className={buttonStyle(totalPages - 1)}
                 onClick={goToPage}
-                data-page={maxPage - 1}
+                data-page={totalPages - 1}
             >
-                {maxPage - 1}
+                {totalPages - 1}
             </button>
             <button
-                className={buttonStyle(maxPage)}
+                className={buttonStyle(totalPages)}
                 onClick={goToPage}
-                data-page={maxPage}
+                data-page={totalPages}
             >
-                {maxPage}
+                {totalPages}
             </button>
             <button
                 className={buttonStyle(page + 1)}
                 onClick={goToPage}
                 data-page={page + 1}
-                disabled={page === maxPage}
+                disabled={page === totalPages}
             >
                 <ChevronRight size={20} />
             </button>

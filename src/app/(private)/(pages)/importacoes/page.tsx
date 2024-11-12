@@ -21,12 +21,12 @@ async function ImportsPage({ searchParams: { search, status } }: IImportsPagePro
 
   return (
     <div className="flex justify-center">
-      <div className="lg:w-[800px] md:w-[500px] w-[400px] flex-col gap-8 flex">
+      <div className="lg:w-[800px] md:w-[500px] w-[300px] flex-col gap-8 flex">
 
 
         <UploadFile />
 
-        <div className="w-full flex justify-between items-center">
+        <div className="w-full flex md:justify-between justify-center items-center">
 
           <SearchBar width={280} />
 
@@ -35,7 +35,7 @@ async function ImportsPage({ searchParams: { search, status } }: IImportsPagePro
         </div>
 
         {!!imports.length && (
-          <div className="flex flex-wrap justify-center lg:justify-between gap-6">
+          <div className="flex flex-wrap md:justify-between justify-center gap-6">
             {imports.map((e) => (
               <ImportsCard key={e.name} {...e} />
             ))}

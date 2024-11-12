@@ -1,34 +1,20 @@
-"use client";
 import Navbar from "@/components/navbar";
 import Graph from "../../public/Graph.svg";
 import BusinessCarousel from "@/components/business-carousel";
 import Link from "next/link";
-import { cookies } from "next/headers";
-import { useEffect } from "react";
-import { setToken } from "@/actions";
 
 function Home() {
-  useEffect(() => {
-    const token = async () => {
-      await setToken();
-    };
-    token();
-  }, []);
   return (
     <div className="flex flex-col gap-12 py-[110px]">
       <Navbar />
       <div className="hero-bg h-[650px] flex items-center px-[85px]">
         <div className="w-[500px] flex flex-col gap-6">
           <h1 className="text-[35px] text-white font-bold">
-            Lorem ipsum dolor sit amet, consectetur{" "}
-            <span className="bg-slate-300">adipscing elit. Sed</span> bibendum
-            purus eget.
+            Quando a IA escuta o <br /><span className="bg-slate-300/45">seu negócio</span><br /> responde.
           </h1>
 
           <p className="text-white text-gray-500">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-            bibendum purus eget nunc luctus tincidunt. Proin dignissim massa sed
-            aliquam iaculis.
+            Desde a pesquisa até a classificação e geração de insights aprofundados, ajudamos seu negócio a se destacar por meio de uma compreensão clara e prática da satisfação dos clientes.
           </p>
 
           <div className="flex gap-4">
@@ -64,15 +50,13 @@ function Home() {
         ))}
       </div>
 
-      <section className="px-10 my-8 flex justify-around items-center">
-        <p className="w-[400px] text-3xl font-bold">
-          Lorem Ipsum Dolor sit Amet, consectur. Sed bibendum.
+      <section className="px-10 my-8 flex lg:flex-row flex-col gap-12 justify-around items-center">
+        <p className="lg:w-[400px] w-full lg:text-left text-center text-3xl font-bold">
+          Insightfy é uma solução completa para empresas que desejam simplificar e potencializar toda a jornada do NPS. 
         </p>
         <div className="w-[500px] flex flex-col gap-6">
           <p>
-            Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa
-            mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien.Lorem
-            ipsum dolor sit amet consectetur adipiscing elit.
+            Quer saber como aprimorar suas estratégias de relacionamento com o cliente?
           </p>
           <p>Fique por dentro das novidades:</p>
           <form className="h-[50px] flex gap-4">
