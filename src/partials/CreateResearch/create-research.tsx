@@ -106,10 +106,10 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
       status: ResearchStatusEnum.ACTIVE,
     };
 
-    const selectedBase = bases.find((e) => typeof survey.base === "object" && "id" in survey.base && e.id == survey.base["id"]);
+    const base = typeof updatedSurvey.base === "object" && "id" in updatedSurvey.base ? updatedSurvey.base["id"] : updatedSurvey.base;
 
-    if (updatedSurvey.id && selectedBase) {
-      const emails = await getCostumerBase(selectedBase.id);
+    if (updatedSurvey.id && base) {
+      const emails = await getCostumerBase(base);
       if (!!emails.length) {
         patchResearch(updatedSurvey.id, updatedSurvey);
 
