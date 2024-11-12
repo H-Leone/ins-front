@@ -1,9 +1,11 @@
 import InsightfyTabs from "@/components/InsightfyTabs/insightfy-tabs";
 import ResearchAnalytics from "@/components/ResearchAnalytics/research-analytics";
 import CreateResearchPage from "@/partials/CreateResearch/create-research";
+import LearnPrompt from "@/partials/LearnPrompt/learn-prompt";
 import ResearchAnswers from "@/partials/ResearchAnswers/research-answers";
 import { getBases } from "@/services/get-bases";
 import { getSurvey } from "@/services/get-survey";
+import { getTopics } from "@/services/get-topics";
 import { IResearch } from "@/types/research";
 import { redirect } from "next/navigation";
 
@@ -25,10 +27,11 @@ async function CreateFormPage({
 }: CreateFormPageProps) {
   const pesquisa: IResearch = await getSurvey(research);
   const bases = await getBases();
+  const topics = await getTopics(research);
   const tabs = [
     {
       content: <CreateResearchPage bases={bases} research={pesquisa} />,
-      name: "Criação de formulário",
+      name: "Criação",
       path: "criacao",
     },
     {
@@ -39,7 +42,7 @@ async function CreateFormPage({
           research={research}
         />
       ),
-      name: "Respostas gerais",
+      name: "Respostas",
       path: "respostas",
     },
     {
@@ -50,9 +53,14 @@ async function CreateFormPage({
           topic={topic}
         />
       ),
-      name: "Análise de respostas",
+      name: "Análise",
       path: "analise",
     },
+    {
+      content: <LearnPrompt search={search} topics={topics} />,
+      name: "Learn prompt",
+      path: "prompt"
+    }
   ];
 
   if (!tab) {

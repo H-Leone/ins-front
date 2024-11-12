@@ -19,7 +19,7 @@ function InsightfyTabs({ research, currentTab, tabs }: IInsightfyTabs) {
   return (
     <div className="w-full">
       <div className="flex w-full py-4">
-        <ul className="grid grid-cols-3 cursor-pointer w-full rounded-xl py-3">
+        <ul className="grid grid-cols-4 cursor-pointer w-full rounded-xl py-3">
           {tabs.map((tab, index) => (
             <TabCard
               currentTab={currentTab}

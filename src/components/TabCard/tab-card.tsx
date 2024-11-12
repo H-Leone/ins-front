@@ -24,7 +24,7 @@ function TabCard({ name, path, content, currentTab }: IInsightfyTabsProps & { cu
     return (
         <li
             onClick={handleClick}
-            className={`w-full text-center md:text-md text-sm px-4 py-3 font-semibold border-b-[3px] ${path === currentTab
+            className={`w-full text-center md:text-md text-xs px-2 py-3 font-semibold border-b-[3px] ${path === currentTab
                 ? "text-insightfy-blue border-insightfy-blue"
                 : "text-insightfy-dark-gray border-insightfy-light-gray"
                 } `}
