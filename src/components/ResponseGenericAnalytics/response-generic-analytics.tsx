@@ -15,9 +15,9 @@ function ResponseGenericAnalytics({
     <Image src={Loading.src} alt="Loading GIF" width={100} height={100} />
   ) : (
     <section className="w-full flex flex-col gap-6">
-      <div className="w-full flex" style={{ justifyContent: "right" }}>
+      {/* <div className="w-full flex" style={{ justifyContent: "right" }}>
         <StatusFilter options={[{ label: "All", value: "All" }]} />
-      </div>
+      </div> */}
 
       <div className="w-full flex flex-col gap-2 rounded-lg border border-insightfy-light-gray p-6">
         <p className="text-xl font-bold">Resumo geral</p>

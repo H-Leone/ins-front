@@ -1,8 +1,8 @@
-import { ITopic } from "@/types/topic"
+import { IImports } from "@/types/imports"
 import { getApiUrl } from "@/utils/get-api-url"
 import { token } from "@/utils/get-token"
 
-export async function createBase(file: Buffer, name: string): Promise<ITopic> {
+export async function createBase(file: Buffer, name: string): Promise<IImports> {
     const formData = new FormData()
     formData.append('file', new Blob([file]), 'file.csv')
     formData.append('name', name)

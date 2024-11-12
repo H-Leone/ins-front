@@ -19,7 +19,7 @@ async function HomePage({ searchParams: { isMenuOpen, isLarge } }: HomePageProps
     <div className="pt-1">
       <HomeSidebar isMenuOpen={isMenuOpen} user={user} researches={recentResearches} />
 
-      <section className={`flex flex-col gap-10 ${isMenuOpen && "pt-[90px]"} ${isLarge && "pl-[300px] pt-12"} pb-12`}>
+      <section className={`flex flex-col gap-10 ${isMenuOpen && "pt-[90px]"} ${isLarge && "pl-[300px]"} pt-10 pb-12`}>
         <section className="m-auto text-center">
           <p className="text-3xl font-bold">RESUMO DAS PESQUISAS</p>
 
@@ -39,7 +39,7 @@ async function HomePage({ searchParams: { isMenuOpen, isLarge } }: HomePageProps
 
         <p className="ml-12 text-lg font-bold">Pesquisas Ativas</p>
 
-        <div className="w-full flex flex-wrap justify-evenly gap-6 px-4">
+        <div className="w-full flex flex-wrap justify-evenly gap-6 gap-y-12 px-4">
           {recentResearches.map((e, index) => (
             <ResearchDataCard
               key={index}

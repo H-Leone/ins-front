@@ -1,11 +1,13 @@
 "use client";
 
 import { createBase } from "@/services/create-base";
+import { useImport } from "@/store/use-import";
 import { useModal } from "@/store/use-modal";
 import { ChangeEventHandler, useState } from "react";
 
 function CreateBaseModal() {
     const [name, setName] = useState("");
+    const { addImport } = useImport();
     const { type, onClose, additionalData } = useModal();
 
     const handleClose = () => {
@@ -16,10 +18,14 @@ function CreateBaseModal() {
         setName(e.target.value);
     }
     
-    const handleCreateBase = () => {
+    const handleCreateBase = async () => {
         if(name && additionalData?.file) {
-            createBase(additionalData.file, name);
-            onClose();
+            const base = await createBase(additionalData.file, name);
+
+            if(base) {
+                addImport(base);
+                onClose();
+            }
         }
     }
 

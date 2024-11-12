@@ -26,7 +26,7 @@ async function ResearchAnswers({ research, search, page }: IResearchAnswersProps
     const currentPageResponses = responses.slice(startIdx, endIdx);
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-8">
             <div className="flex justify-between">
                 <SearchBar width={380} />
             </div>

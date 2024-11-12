@@ -4,10 +4,12 @@ import { useModal } from "@/store/use-modal";
 import { useEffect, useRef, useState } from "react";
 import InsightfyButton from "../InsightfyButton/insightfy-button";
 import { createQuestion } from "@/services/create-question";
+import { useSurvey } from "@/store/use-survey";
 
 function CreateQuestionModal() {
     const modalRef = useRef<HTMLDivElement>(null);
     const { additionalData, type, onClose } = useModal();
+    const { survey, setSurvey } = useSurvey();
     const options = [
         { option: "1", name: "Opções" },
         { option: "2", name: "Resposta aberta" },
@@ -21,8 +23,12 @@ function CreateQuestionModal() {
 
     const handleCreateQuestion = async () => {
         if (additionalData?.research?.id) {
-            await createQuestion(additionalData?.research?.id, selectedOption);
-            onClose();
+            const updatedSurvey = await createQuestion(additionalData?.research?.id, selectedOption);
+
+            if(updatedSurvey) {
+                setSurvey(updatedSurvey);
+                onClose();
+            }
         };
     }
 

@@ -1,20 +1,21 @@
 "use client";
 
 import CommunicationMethods from "@/components/CommunicationMethods/communication-methods";
+import FormList from "@/components/FormList/form-list";
 import InsightfyButton from "@/components/InsightfyButton/insightfy-button";
-import ResearchForm from "@/components/ResearchForm/research-form";
-import { getBases } from "@/services/get-bases";
 import { getCostumerBase } from "@/services/get-costumers-base";
 import { patchResearch } from "@/services/patch-research";
 import { sendEmails } from "@/services/send-email";
 import { useModal } from "@/store/use-modal";
+import { useSurvey } from "@/store/use-survey";
 import { IImports } from "@/types/imports";
 import { IResearch } from "@/types/research";
+import { ResearchStatusNameEnum } from "@/types/research-status-name.enum";
 import { ResearchStatusEnum } from "@/types/research-status.enum";
 import { researchStatusColor } from "@/utils/research-status-color";
 import { format } from "date-fns";
 import { ChevronDown, Database } from "lucide-react";
-import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
 
 interface CreateResearchPageProps {
   research: IResearch;
@@ -22,11 +23,13 @@ interface CreateResearchPageProps {
 }
 
 function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
-  const [survey, setSurvey] = useState<IResearch>(research);
+  const { survey, setSurvey } = useSurvey();
   const [title, setTitle] = useState<string>(research.title);
   const { onOpen } = useModal();
 
   const handleToggleCommunication = (method: string) => {
+    if (!survey) return;
+
     const updatedSurvey = {
       ...survey,
       [method]: !survey[method as keyof IResearch],
@@ -39,6 +42,8 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
   };
 
   const handleDeleteQuestion = (index: number) => {
+    if (!survey) return;
+
     const updatedSurvey = {
       ...survey,
       form: survey.form.filter((f, i) => index !== i),
@@ -51,6 +56,8 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
   };
 
   const handleChangeForm = (index: number, newDescription: string) => {
+    if (!survey) return;
+
     const updatedSurvey = {
       ...survey,
       form: survey.form.map((f, i) =>
@@ -74,10 +81,12 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
   };
 
   const handleUpdateQuestion = () => {
-    if (survey.id) patchResearch(survey.id, survey);
+    if (survey?.id) patchResearch(survey.id, survey);
   };
 
   const handleDisable = () => {
+    if (!survey) return;
+
     const updatedSurvey = {
       ...survey,
       status: ResearchStatusEnum.DISABLED,
@@ -90,12 +99,14 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
   };
 
   const handleTrigger = async () => {
+    if (!survey) return;
+
     const updatedSurvey = {
       ...survey,
       status: ResearchStatusEnum.ACTIVE,
     };
 
-    const selectedBase = bases.find((e) => typeof survey.base === "object" && "name" in survey.base && e.id == survey.base["id"]);
+    const selectedBase = bases.find((e) => typeof survey.base === "object" && "id" in survey.base && e.id == survey.base["id"]);
 
     if (updatedSurvey.id && selectedBase) {
       const emails = await getCostumerBase(selectedBase.id);
@@ -117,6 +128,8 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
   };
 
   const handleTitleUpdate = () => {
+    if (!survey) return;
+
     if (survey.id && title !== survey.title) {
       const updatedSurvey = { ...survey, title };
 
@@ -127,48 +140,53 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
     }
   };
 
+  useEffect(() => {
+    setSurvey(research);
+  }, [research]);
+
+  if(!survey) {
+    return null;
+  }
+
   return (
-    <div className="flex flex-col md:flex-row gap-10">
-      <div className="min-w-[300px] max-w-[300px] flex flex-col gap-6 px-6">
-        <div>
-          <p
-            className={`text-lg font-semibold ${researchStatusColor(
-              survey.status
-            )}`}
-          >
-            {survey.status}
-          </p>
-          <p className="text-insightfy-dark-gray">
-            desde {format(survey.scheduledDate, "dd/mm/yyyy HH:mm")}
-          </p>
+    <div className="flex flex-col lg:flex-row gap-10">
+      <div className="lg:min-w-[300px] lg:max-w-[300px] w-full flex flex-col gap-6 px-6">
+        <div className="flex justify-between lg:flex-col flex-row gap-4">
+          <div>
+            <p
+              style={{ color: researchStatusColor(survey.status)}}
+              className={`text-lg font-semibold`}
+            >
+              {ResearchStatusNameEnum[survey.status]}
+            </p>
+            <p className="text-insightfy-dark-gray">
+              desde {format(survey.scheduledDate, "dd/mm/yyyy HH:mm")}
+            </p>
+          </div>
+          <span className="lg:w-full w-48 relative flex items-center">
+            <span className="flex justify-center items-center absolute top-1/2 -translate-y-1/2 left-3">
+              <Database size={20} />
+            </span>
+            <select
+              onChange={handleChange}
+              className="w-full h-12 indent-10 rounded-lg bg-insightfy-light-gray cursor-pointer outline-none appearance-none"
+              defaultValue={
+                typeof survey.base === "object" && "id" in survey.base
+                  ? survey.base.id
+                  : ""
+              }
+            >
+              {bases.map((base) => (
+                <option key={base.id} value={base.id}>
+                  {base.name || "All"}
+                </option>
+              ))}
+            </select>
+            <span className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none">
+              <ChevronDown size={20} />
+            </span>
+          </span>
         </div>
-
-        <span className="relative flex items-center">
-          <span className="flex justify-center items-center absolute top-1/2 -translate-y-1/2 left-3">
-            <Database size={20} />
-          </span>
-
-          <select
-            onChange={handleChange}
-            className="w-full h-12 indent-10 rounded-lg bg-insightfy-light-gray cursor-pointer outline-none appearance-none"
-            defaultValue={
-              typeof survey.base === "object" && "id" in survey.base
-                ? survey.base.id
-                : ""
-            }
-          >
-            {bases.map((base) => (
-              <option key={base.id} value={base.id}>
-                {base.name || "All"}
-              </option>
-            ))}
-
-          </select>
-
-          <span className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none">
-            <ChevronDown size={20} />
-          </span>
-        </span>
         {/* <input type="text" className="h-12 border border-insightfy-gray rounded-lg outline-none px-3" /> */}
 
         <CommunicationMethods {...survey} change={handleToggleCommunication} />
@@ -203,18 +221,13 @@ function CreateResearchPage({ research, bases }: CreateResearchPageProps) {
           />
         </section>
 
-        {survey.form.map((f, index) => (
-          <ResearchForm
-            deleteQuestion={() => handleDeleteQuestion(index)}
-            isActive={survey.status === ResearchStatusEnum.ACTIVE}
-            key={index}
-            updateQuestion={handleUpdateQuestion}
-            changeForm={(newDescription: string) =>
-              handleChangeForm(index, newDescription)
-            }
-            {...f}
-          />
-        ))}
+        <FormList 
+          form={survey.form}
+          isActive={survey.status === ResearchStatusEnum.ACTIVE}
+          updateQuestion={handleUpdateQuestion}
+          deleteQuestion={handleDeleteQuestion}
+          changeForm={handleChangeForm}
+        />
 
         <div className="flex" style={{ justifyContent: "right" }}>
           <InsightfyButton

@@ -50,9 +50,7 @@ function HomeSidebar({ user, researches, isMenuOpen: initialMenuState }: HomeSid
     }, []);
 
     useEffect(() => {
-        if (isLargeScreen) {
-            setIsMenuOpen(true);
-        }
+        setIsMenuOpen(isLargeScreen ? true : isMenuOpen);
     }, [isLargeScreen]);
 
     const handleToggleOpen = () => {
@@ -70,12 +68,14 @@ function HomeSidebar({ user, researches, isMenuOpen: initialMenuState }: HomeSid
 
     return (
         <>
-            {!isMenuOpen && !isLargeScreen && (
-                <Menu onClick={handleToggleOpen} size={25} className="m-8" />
+            {!isLargeScreen && (
+                <span onClick={handleToggleOpen} className="m-6 fixed bg-white p-2 rounded-full">
+                    <Menu size={25} />
+                </span>
             )}
             <div
                 className={`fixed w-full h-full z-40 transition-opacity duration-300 ease-in-out ${
-                    isMenuOpen ? "opacity-100 bg-black/25 pointer-events-auto" : "opacity-0 pointer-events-none"
+                    (isMenuOpen && !isLargeScreen) ? "opacity-100 bg-black/25 pointer-events-auto" : (!isLargeScreen && "opacity-0 pointer-events-none")
                 }`}
             >
                 <aside

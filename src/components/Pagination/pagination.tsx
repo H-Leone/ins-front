@@ -31,10 +31,9 @@ function Pagination({ page, totalPages }: IPaginationProps) {
     }, []);
 
     const buttonStyle = (pageNumber: number) =>
-        `flex justify-center items-center w-10 h-10 text-center ${
-            pageNumber === page
-                ? "text-insightfy-blue border-insightfy-blue"
-                : "text-black border-insightfy-light-gray"
+        `flex justify-center items-center w-10 h-10 text-center ${pageNumber === page
+            ? "text-insightfy-blue border-insightfy-blue"
+            : "text-black border-insightfy-light-gray"
         } rounded-md font-bold border disabled:bg-gray-300 disabled:border-0 disabled:text-insightfy-light-gray disabled:cursor-not-allowed`;
 
     const goToPage: MouseEventHandler = (event) => {
@@ -92,46 +91,54 @@ function Pagination({ page, totalPages }: IPaginationProps) {
             >
                 1
             </button>
-            <button
-                className={buttonStyle(page === totalPages || page === totalPages - 1 || page === 1 ? 2 : page)}
-                onClick={goToPage}
-                data-page={page === totalPages || page === totalPages - 1 || page === 1 ? 2 : page}
-            >
-                {page === totalPages || page === totalPages - 1 || page === 1 ? 2 : page}
-            </button>
-            <button
-                className={buttonStyle(0)}
-                onClick={() => setIsInputVisible(true)}
-            >
-                {isInputVisible ? (
-                    <form onSubmit={handleFormSubmit} className="flex items-center space-x-2">
-                        <input
-                            type="number"
-                            min="1"
-                            max={totalPages}
-                            onChange={handleInputChange}
-                            value={inputPage === "" ? "" : inputPage}
-                            className={buttonStyle(0)}
-                            autoFocus
-                            onBlur={handleInputBlur} // Hide the input on blur
-                        />
-                    </form>
-                ) : "..."}
-            </button>
-            <button
-                className={buttonStyle(totalPages - 1)}
-                onClick={goToPage}
-                data-page={totalPages - 1}
-            >
-                {totalPages - 1}
-            </button>
-            <button
-                className={buttonStyle(totalPages)}
-                onClick={goToPage}
-                data-page={totalPages}
-            >
-                {totalPages}
-            </button>
+            {totalPages > 2 && (
+                <button
+                    className={buttonStyle(page === totalPages || page === totalPages - 1 || page === 1 ? 2 : page)}
+                    onClick={goToPage}
+                    data-page={page === totalPages || page === totalPages - 1 || page === 1 ? 2 : page}
+                >
+                    {page === totalPages || page === totalPages - 1 || page === 1 ? 2 : page}
+                </button>
+            )}
+            {totalPages > 5 && (
+                <button
+                    className={buttonStyle(0)}
+                    onClick={() => setIsInputVisible(true)}
+                >
+                    {isInputVisible ? (
+                        <form onSubmit={handleFormSubmit} className="flex items-center space-x-2">
+                            <input
+                                type="number"
+                                min="1"
+                                max={totalPages}
+                                onChange={handleInputChange}
+                                value={inputPage === "" ? "" : inputPage}
+                                className={buttonStyle(0)}
+                                autoFocus
+                                onBlur={handleInputBlur}
+                            />
+                        </form>
+                    ) : "..."}
+                </button>
+            )}
+            {totalPages > 3 && (
+                <button
+                    className={buttonStyle(totalPages - 1)}
+                    onClick={goToPage}
+                    data-page={totalPages - 1}
+                >
+                    {totalPages - 1}
+                </button>
+            )}
+            {totalPages > 4 && (
+                <button
+                    className={buttonStyle(totalPages)}
+                    onClick={goToPage}
+                    data-page={totalPages}
+                >
+                    {totalPages}
+                </button>
+            )}
             <button
                 className={buttonStyle(page + 1)}
                 onClick={goToPage}

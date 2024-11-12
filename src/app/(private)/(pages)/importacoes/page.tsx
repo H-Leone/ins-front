@@ -1,3 +1,4 @@
+import ImportList from "@/components/ImportList/import-list";
 import ImportsCard from "@/components/ImportsCard/imports-card";
 import SearchBar from "@/components/SearchBar/search-bar";
 import StatusFilter from "@/components/StatusFilter/status-filter";
@@ -34,14 +35,7 @@ async function ImportsPage({ searchParams: { search, status } }: IImportsPagePro
 
         </div>
 
-        {!!imports.length && (
-          <div className="flex flex-wrap md:justify-between justify-center gap-6">
-            {imports.map((e) => (
-              <ImportsCard key={e.name} {...e} />
-            ))}
-          </div>
-        )}
-
+        <ImportList importList={imports} />
       </div>
     </div>
   );

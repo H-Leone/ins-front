@@ -2,15 +2,18 @@ import Navbar from "@/components/navbar";
 import Graph from "../../public/Graph.svg";
 import BusinessCarousel from "@/components/business-carousel";
 import Link from "next/link";
+import { getUser } from "@/services/get-user";
 
-function Home() {
+async function Home() {
+  const user = await getUser();
+
   return (
     <div className="flex flex-col gap-12 py-[110px]">
       <Navbar />
       <div className="hero-bg h-[650px] flex items-center px-[85px]">
         <div className="w-[500px] flex flex-col gap-6">
           <h1 className="text-[35px] text-white font-bold">
-            Quando a IA escuta o <br /><span className="bg-slate-300/45">seu negócio</span><br /> responde.
+            Quando a IA, escuta o <br /><span className="bg-slate-300/45">seu negócio</span><br /> responde.
           </h1>
 
           <p className="text-white text-gray-500">
@@ -75,9 +78,9 @@ function Home() {
       <h2 className="text-center text-3xl font-semibold mt-4">
         Pronto para tentar?
       </h2>
-      <Link className="m-auto" href={"/registro"}>
+      <Link className="m-auto" href={user ? "/home" : "/registro"}>
         <button className="w-[220px] h-[50px] m-auto bg-ins-blue text-white rounded font-semibold">
-          Faça seu registro
+          {user ? "Ir para o dashboard" : "Faça seu registro"}
         </button>
       </Link>
     </div>
