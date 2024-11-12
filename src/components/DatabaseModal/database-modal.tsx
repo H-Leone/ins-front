@@ -47,36 +47,37 @@ function DatabaseModal() {
   return (
     <div
       ref={modalRef}
-      className="w-2/3 min-h-[500px] max-h-[500px] overflow-y-scroll rounded-md bg-white flex flex-col justify-around items-center gap-6 select-none p-16 pt-6"
+      className="w-full max-w-lg md:max-w-2xl lg:max-w-3xl min-h-[300px] max-h-[80vh] overflow-y-auto rounded-md bg-white flex flex-col justify-around items-center gap-4 p-4 sm:p-8"
     >
       {!!costumers.length ? (
-          <table className="w-full text-left max-h-[500px]">
-            <thead className="">
-              <tr className="border-b border-b-insightfy-gray">
-                <th className="py-4 ">Nome</th>
-                <th className="py-4 ">Sobrenome</th>
-                <th className="py-4 ">E-mail</th>
-                <th className="py-4 ">Número</th>
+        <table className="w-full text-left">
+          <thead>
+            <tr className="border-b border-b-insightfy-gray">
+              <th className="py-2 sm:py-4 text-xs sm:text-base">Nome</th>
+              <th className="py-2 sm:py-4 text-xs sm:text-base">Sobrenome</th>
+              <th className="py-2 sm:py-4 text-xs sm:text-base">E-mail</th>
+              <th className="py-2 sm:py-4 text-xs sm:text-base">Número</th>
+            </tr>
+          </thead>
+          <tbody>
+            {costumers.map((row) => (
+              <tr className="border-b border-b-insightfy-gray" key={row.id}>
+                <td className="py-2 sm:py-4 text-xs sm:text-base">{row.name}</td>
+                <td className="py-2 sm:py-4 text-xs sm:text-base">{row.surname}</td>
+                <td className="py-2 sm:py-4 text-xs sm:text-base">{row.email}</td>
+                <td className="py-2 sm:py-4 text-xs sm:text-base">{row.phone}</td>
               </tr>
-            </thead>
-            <tbody className="">
-              {costumers.map((row) => (
-                <tr className="border-b border-b-insightfy-gray" key={row.id}>
-                  <td className="py-4 ">{row.name}</td>
-                  <td className="py-4 ">{row.surname}</td>
-                  <td className="py-4 ">{row.email}</td>
-                  <td className="py-4 ">{row.phone}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            ))}
+          </tbody>
+        </table>
       ) : !isLoading ? (
-        <p>Nenhum usuário cadastrado!</p>
+        <p className="text-center text-xs sm:text-base">Nenhum usuário cadastrado!</p>
       ) : (
-        <Image src={Loading.src} alt="Loading GIF" width={100} height={100} />
+        <Image src={Loading.src} alt="Loading GIF" width={50} height={50} />
       )}
     </div>
-  );
+
+  )
 }
 
 export default DatabaseModal;

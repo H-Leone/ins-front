@@ -11,24 +11,68 @@ export async function getSurveySummary(id: string): Promise<ISurveySummary> {
         method: "POST"
     })
         .then(data => !data.ok ? {
-            "summary": "O comentário expressa sentimentos contrastantes sobre duas pessoas, com admiração por uma e desaprovação pela outra. A linguagem é direta e não fornece detalhes sobre o contexto ou a relação entre elas.",
+            "summary": "A análise dos comentários indica uma alta aprovação e satisfação geral.",
             "topics": [
                 {
-                    "topicTitle": "Admiração",
-                    "topicDescription": "Sentimento positivo em relação a uma pessoa.",
+                    "topicTitle": "Satisfação",
+                    "topicDescription": "Os comentários expressam uma forte aprovação e satisfação, demonstrando uma experiência positiva.",
                     "texts": [
-                        "Fidalgo é lindo"
-                    ]
-                },
-                {
-                    "topicTitle": "Desaprovação",
-                    "topicDescription": "Sentimento negativo em relação a outra pessoa.",
-                    "texts": [
-                        "Barba odeia ele"
+                        "Bom",
+                        "Bom",
+                        "Bom",
+                        "Bom",
+                        "Bom",
+                        "Bom",
+                        "Bom",
+                        "Bom",
+                        "Bom",
+                        "Bom",
+                        "Bom",
+                        "Bom",
+                        "Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom",
+                        "Muito Bom"
                     ]
                 }
             ],
             "positiveTopicsCount": 1,
-            "negativeTopicsCount": 1
+            "negativeTopicsCount": 0
         } : data.json());
 }

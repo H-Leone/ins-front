@@ -93,9 +93,9 @@ function ResearchAnalytics({
         </p>
 
         <div className="flex flex-col gap-4">
-          {filteredTopics.map((topic, index) => (
+          {!!filteredTopics.length ? filteredTopics.map((topic, index) => (
             <ResearchTopicCard topic={topic} key={index} onClick={() => {}} />
-          ))}
+          )) : <p>Nenhum tópico foi encontrado!</p>}
         </div>
       </aside>
 

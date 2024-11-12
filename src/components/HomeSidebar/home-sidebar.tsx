@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { IResearch } from "@/types/research";
 import { IUser } from "@/types/user";
 import ProjectCard from "../ProjectCard/project-card";
@@ -20,6 +20,9 @@ function HomeSidebar({ user, researches, isMenuOpen: initialMenuState }: HomeSid
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
+
+    // Create a ref for the sidebar to detect clicks outside
+    const sidebarRef = useRef<HTMLDivElement>(null);
 
     const tabs = [
         { name: "Bem-Vindo", path: "/home", icon: <Home size={21} /> },
@@ -53,6 +56,23 @@ function HomeSidebar({ user, researches, isMenuOpen: initialMenuState }: HomeSid
         setIsMenuOpen(isLargeScreen ? true : isMenuOpen);
     }, [isLargeScreen]);
 
+    // Handle click outside the sidebar to close the menu
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+                setIsMenuOpen(false);
+                const params = new URLSearchParams(searchParams);
+                params.delete("isMenuOpen");
+                replace(`${pathname}?${params.toString()}`);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [searchParams, pathname]);
+
     const handleToggleOpen = () => {
         const params = new URLSearchParams(searchParams);
 
@@ -79,6 +99,7 @@ function HomeSidebar({ user, researches, isMenuOpen: initialMenuState }: HomeSid
                 }`}
             >
                 <aside
+                    ref={sidebarRef}
                     className={`w-[300px] min-h-screen max-h-screen fixed overflow-scroll flex flex-col gap-6 p-8 shadow-xl scroll-hidden pb-[170px] z-50 bg-white ${
                         isMenuOpen ? "animate-slideIn" : "animate-slideOut"
                     }`}
